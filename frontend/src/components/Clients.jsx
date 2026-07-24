@@ -1,10 +1,15 @@
 import { useI18n } from "../context/I18nContext.jsx";
 import { STRINGS } from "../i18n/strings.js";
 
-/** Prueba social: clientes reales verificados (CONTENEDORES.xlsx), justo antes del CTA final. */
+/**
+ * Presencia internacional: solo países, no nombres de empresa — usar el
+ * nombre real de un cliente como referencia de marketing sin su
+ * consentimiento explícito es un riesgo de confidencialidad, no solo
+ * estético (decisión de negocio, 2026-07-24).
+ */
 export default function Clients() {
   const { t, lang } = useI18n();
-  const list = STRINGS[lang].clients.list;
+  const countries = STRINGS[lang].clients.countries;
   return (
     <section className="band" id="clients" data-screen-label="05b Clients">
       <div className="section-head reveal">
@@ -17,15 +22,14 @@ export default function Clients() {
         <p className="section-lede">{t("clients.lede")}</p>
       </div>
 
-      <ul className="clients-grid">
-        {list.map((c, i) => (
+      <ul className="countries-row">
+        {countries.map((country, i) => (
           <li
-            key={c.name}
-            className="client-card reveal"
+            key={country}
+            className="country-badge reveal"
             style={{ "--reveal-delay": `${i * 70}ms` }}
           >
-            <span className="client-name">{c.name}</span>
-            <span className="client-country mono">{c.country}</span>
+            {country}
           </li>
         ))}
       </ul>

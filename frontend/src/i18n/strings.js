@@ -20,9 +20,9 @@ export const STRINGS = {
       sub: "Exportador peruano activo, con envíos verificados a Países Bajos, España y Estados Unidos. Empacamos, transportamos y embarcamos fruta premium con trazabilidad de origen y un account manager dedicado para cada cliente.",
       cta: "Ver nuestros productos", ctaSecondary: "Solicitar muestra",
       stats: {
-        years:   { n: "11",     unit: "operaciones", label: "Exportaciones registradas 2023–24" },
-        markets: { n: "3",      unit: "países",      label: "Países Bajos · España · EE.UU." },
-        volume:  { n: "$388.9K", unit: "FOB acum.",  label: "Valor exportado 2023–24" },
+        years:   { n: "Multi-producto", unit: "", label: "Catálogo en expansión" },
+        markets: { n: "NL · ES · US",   unit: "", label: "Mercados de exportación" },
+        volume:  { n: "100%",           unit: "", label: "Trazabilidad — QR por caja" },
       },
       vis: {
         a: { id: "FRUTA 01 · MANDARINA", label: "Mandarina W. Murcott" },
@@ -72,18 +72,10 @@ export const STRINGS = {
       ],
     },
     clients: {
-      eyebrow: "Confían en nosotros",
-      title_a: "Importadores que ", title_em: "repiten", title_b: ".",
-      lede: "Empresas reales con las que ya operamos, en Europa, Norteamérica y el mercado nacional.",
-      list: [
-        { name: "Palacios Escutia SL",         country: "España" },
-        { name: "Gabriel/Vicente",             country: "México" },
-        { name: "Century Farms Internacional", country: "EE.UU." },
-        { name: "Seforpun EIRL",               country: "Perú" },
-        { name: "Inma Golden",                 country: "Perú" },
-        { name: "Ping Fruit",                  country: "Países Bajos" },
-        { name: "Guerrero Mercovasa SL",       country: "España" },
-      ],
+      eyebrow: "Presencia internacional",
+      title_a: "Ya exportamos ", title_em: "a estos mercados", title_b: ".",
+      lede: "Operamos con importadores reales en cada uno de estos países.",
+      countries: ["España", "México", "Estados Unidos", "Países Bajos", "Perú"],
     },
     strip: {
       title_a: "Lo que un cliente recibe ", title_em: "más allá", title_b: " de la fruta.",
@@ -100,7 +92,7 @@ export const STRINGS = {
       cols: { divisions: "Divisiones", company: "Compañía", clients: "Clientes" },
       companyLinks: ["Nosotros", "Liderazgo", "Prensa", "Carreras", "Reporte de sostenibilidad"],
       clientLinks: ["Catálogo de productos", "Solicitar cotización", "Calendario de cosecha", "Certificaciones", "Mi cuenta"],
-      legalLine: "© 2026 Frutransport S.A. — Todos los derechos reservados · RUC 20XXXXXXXXX",
+      legalLine: "© 2026 Frutransport S.A. — Todos los derechos reservados · RUC 20609731045",
       legal: ["Términos", "Privacidad", "Cookies", "Divulgaciones"],
     },
     account: {
@@ -170,9 +162,9 @@ export const STRINGS = {
       sub: "An active Peruvian exporter, with verified shipments to the Netherlands, Spain and the United States. We pack, transport, and ship premium fruit with origin traceability and a dedicated account manager for every client.",
       cta: "See our products", ctaSecondary: "Request a sample",
       stats: {
-        years:   { n: "11",     unit: "shipments", label: "Export operations recorded 2023–24" },
-        markets: { n: "3",      unit: "countries", label: "Netherlands · Spain · USA" },
-        volume:  { n: "$388.9K", unit: "FOB total", label: "Value exported 2023–24" },
+        years:   { n: "Multi-product", unit: "", label: "Growing catalogue" },
+        markets: { n: "NL · ES · US",  unit: "", label: "Export markets" },
+        volume:  { n: "100%",          unit: "", label: "Traceability — QR per box" },
       },
       vis: {
         a: { id: "FRUIT 01 · MANDARIN",   label: "W. Murcott Mandarin" },
@@ -222,18 +214,10 @@ export const STRINGS = {
       ],
     },
     clients: {
-      eyebrow: "Trusted by",
-      title_a: "Importers who ", title_em: "come back", title_b: ".",
-      lede: "Real companies we already work with, across Europe, North America, and the domestic market.",
-      list: [
-        { name: "Palacios Escutia SL",         country: "Spain" },
-        { name: "Gabriel/Vicente",             country: "Mexico" },
-        { name: "Century Farms Internacional", country: "USA" },
-        { name: "Seforpun EIRL",               country: "Peru" },
-        { name: "Inma Golden",                 country: "Peru" },
-        { name: "Ping Fruit",                  country: "Netherlands" },
-        { name: "Guerrero Mercovasa SL",       country: "Spain" },
-      ],
+      eyebrow: "International presence",
+      title_a: "We already export ", title_em: "to these markets", title_b: ".",
+      lede: "We work with real importers in each of these countries.",
+      countries: ["Spain", "Mexico", "United States", "Netherlands", "Peru"],
     },
     strip: {
       title_a: "What a client gets ", title_em: "beyond", title_b: " the fruit itself.",
@@ -250,7 +234,7 @@ export const STRINGS = {
       cols: { divisions: "Divisions", company: "Company", clients: "Clients" },
       companyLinks: ["About Us", "Leadership", "Press", "Careers", "Sustainability report"],
       clientLinks: ["Product catalogue", "Request quote", "Harvest calendar", "Certifications", "My account"],
-      legalLine: "© 2026 Frutransport S.A. — All rights reserved · RUC 20XXXXXXXXX",
+      legalLine: "© 2026 Frutransport S.A. — All rights reserved · RUC 20609731045",
       legal: ["Terms", "Privacy", "Cookies", "Disclosures"],
     },
     account: {
@@ -320,9 +304,9 @@ export const STRINGS = {
       sub: "Um exportador peruano ativo, com envios verificados para os Países Baixos, Espanha e Estados Unidos. Embalamos, transportamos e embarcamos fruta premium com rastreabilidade de origem e um account manager dedicado para cada cliente.",
       cta: "Ver nossos produtos", ctaSecondary: "Solicitar amostra",
       stats: {
-        years:   { n: "11",     unit: "operações", label: "Exportações registradas 2023–24" },
-        markets: { n: "3",      unit: "países",    label: "Países Baixos · Espanha · EUA" },
-        volume:  { n: "$388.9K", unit: "FOB acum.", label: "Valor exportado 2023–24" },
+        years:   { n: "Multiproduto", unit: "", label: "Catálogo em expansão" },
+        markets: { n: "NL · ES · US", unit: "", label: "Mercados de exportação" },
+        volume:  { n: "100%",         unit: "", label: "Rastreabilidade — QR por caixa" },
       },
       vis: {
         a: { id: "FRUTA 01 · TANGERINA", label: "Tangerina W. Murcott" },
@@ -372,18 +356,10 @@ export const STRINGS = {
       ],
     },
     clients: {
-      eyebrow: "Confiam em nós",
-      title_a: "Importadores que ", title_em: "voltam", title_b: ".",
-      lede: "Empresas reais com as quais já trabalhamos, na Europa, América do Norte e no mercado nacional.",
-      list: [
-        { name: "Palacios Escutia SL",         country: "Espanha" },
-        { name: "Gabriel/Vicente",             country: "México" },
-        { name: "Century Farms Internacional", country: "EUA" },
-        { name: "Seforpun EIRL",               country: "Peru" },
-        { name: "Inma Golden",                 country: "Peru" },
-        { name: "Ping Fruit",                  country: "Países Baixos" },
-        { name: "Guerrero Mercovasa SL",       country: "Espanha" },
-      ],
+      eyebrow: "Presença internacional",
+      title_a: "Já exportamos ", title_em: "para estes mercados", title_b: ".",
+      lede: "Trabalhamos com importadores reais em cada um destes países.",
+      countries: ["Espanha", "México", "Estados Unidos", "Países Baixos", "Peru"],
     },
     strip: {
       title_a: "O que um cliente recebe ", title_em: "além", title_b: " da fruta.",
@@ -400,7 +376,7 @@ export const STRINGS = {
       cols: { divisions: "Divisões", company: "Empresa", clients: "Clientes" },
       companyLinks: ["Sobre nós", "Liderança", "Imprensa", "Carreiras", "Relatório de sustentabilidade"],
       clientLinks: ["Catálogo de produtos", "Solicitar cotação", "Calendário de colheita", "Certificações", "Minha conta"],
-      legalLine: "© 2026 Frutransport S.A. — Todos os direitos reservados · RUC 20XXXXXXXXX",
+      legalLine: "© 2026 Frutransport S.A. — Todos os direitos reservados · RUC 20609731045",
       legal: ["Termos", "Privacidade", "Cookies", "Divulgações"],
     },
     account: {
@@ -470,9 +446,9 @@ export const STRINGS = {
       sub: "活跃的秘鲁出口商,已核实发往荷兰、西班牙和美国的货运。我们将优质水果打包、运输并发运,提供原产地溯源,并为每位客户配备专属客户经理。",
       cta: "查看我们的产品", ctaSecondary: "申请样品",
       stats: {
-        years:   { n: "11",     unit: "批次",   label: "2023–24 出口记录" },
-        markets: { n: "3",      unit: "国家",   label: "荷兰 · 西班牙 · 美国" },
-        volume:  { n: "$388.9K", unit: "FOB 累计", label: "2023–24 出口价值" },
+        years:   { n: "多品类",    unit: "", label: "持续扩展的产品目录" },
+        markets: { n: "NL·ES·US", unit: "", label: "出口市场" },
+        volume:  { n: "100%",     unit: "", label: "可追溯 — 每箱附二维码" },
       },
       vis: {
         a: { id: "水果 01 · 蜜橘", label: "W. Murcott 蜜橘" },
@@ -522,18 +498,10 @@ export const STRINGS = {
       ],
     },
     clients: {
-      eyebrow: "客户信赖",
-      title_a: "持续复购的", title_em: "进口商", title_b: "。",
-      lede: "我们已经在合作的真实企业,遍布欧洲、北美和国内市场。",
-      list: [
-        { name: "Palacios Escutia SL",         country: "西班牙" },
-        { name: "Gabriel/Vicente",             country: "墨西哥" },
-        { name: "Century Farms Internacional", country: "美国" },
-        { name: "Seforpun EIRL",               country: "秘鲁" },
-        { name: "Inma Golden",                 country: "秘鲁" },
-        { name: "Ping Fruit",                  country: "荷兰" },
-        { name: "Guerrero Mercovasa SL",       country: "西班牙" },
-      ],
+      eyebrow: "国际业务",
+      title_a: "我们已出口至", title_em: "以下市场", title_b: "。",
+      lede: "我们与这些国家的真实进口商合作。",
+      countries: ["西班牙", "墨西哥", "美国", "荷兰", "秘鲁"],
     },
     strip: {
       title_a: "客户除了水果之外,还能", title_em: "得到什么", title_b: "。",
@@ -550,7 +518,7 @@ export const STRINGS = {
       cols: { divisions: "业务部门", company: "公司", clients: "客户" },
       companyLinks: ["关于我们", "管理层", "新闻", "招聘", "可持续发展报告"],
       clientLinks: ["产品目录", "申请报价", "采收日历", "认证", "我的账户"],
-      legalLine: "© 2026 Frutransport S.A. — 版权所有 · RUC 20XXXXXXXXX",
+      legalLine: "© 2026 Frutransport S.A. — 版权所有 · RUC 20609731045",
       legal: ["条款", "隐私", "Cookie", "披露"],
     },
     account: {
