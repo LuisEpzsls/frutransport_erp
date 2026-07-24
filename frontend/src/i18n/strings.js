@@ -21,7 +21,7 @@ export const STRINGS = {
       cta: "Ver nuestros productos", ctaSecondary: "Solicitar muestra",
       stats: {
         years:   { n: "Multi-producto", unit: "", label: "Catálogo en expansión" },
-        markets: { n: "NL · ES · US",   unit: "", label: "Mercados de exportación" },
+        markets: { n: "Multi-mercado", unit: "", label: "Presencia internacional" },
         volume:  { n: "100%",           unit: "", label: "Trazabilidad — QR por caja" },
       },
       vis: {
@@ -163,7 +163,7 @@ export const STRINGS = {
       cta: "See our products", ctaSecondary: "Request a sample",
       stats: {
         years:   { n: "Multi-product", unit: "", label: "Growing catalogue" },
-        markets: { n: "NL · ES · US",  unit: "", label: "Export markets" },
+        markets: { n: "Multi-market", unit: "", label: "International presence" },
         volume:  { n: "100%",          unit: "", label: "Traceability — QR per box" },
       },
       vis: {
@@ -305,7 +305,7 @@ export const STRINGS = {
       cta: "Ver nossos produtos", ctaSecondary: "Solicitar amostra",
       stats: {
         years:   { n: "Multiproduto", unit: "", label: "Catálogo em expansão" },
-        markets: { n: "NL · ES · US", unit: "", label: "Mercados de exportação" },
+        markets: { n: "Multimercado", unit: "", label: "Presença internacional" },
         volume:  { n: "100%",         unit: "", label: "Rastreabilidade — QR por caixa" },
       },
       vis: {
@@ -447,7 +447,7 @@ export const STRINGS = {
       cta: "查看我们的产品", ctaSecondary: "申请样品",
       stats: {
         years:   { n: "多品类",    unit: "", label: "持续扩展的产品目录" },
-        markets: { n: "NL·ES·US", unit: "", label: "出口市场" },
+        markets: { n: "多市场", unit: "", label: "国际业务布局" },
         volume:  { n: "100%",     unit: "", label: "可追溯 — 每箱附二维码" },
       },
       vis: {
