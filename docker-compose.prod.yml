@@ -1,0 +1,47 @@
+# Overrides de producción — usar SIEMPRE junto con el compose base:
+#   docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
+#
+# A diferencia del compose base (pensado para la demo local, con defaults
+# débiles para que "docker compose up" funcione sin configurar nada), este
+# archivo NO tiene fallbacks: si falta JWT_SECRET, ML_INTERNAL_SECRET,
+# DB_PASSWORD o CORS_ORIGIN en el entorno (o en un .env en la raíz del
+# repo), `docker compose` se niega a arrancar en vez de arrancar con un
+# secreto de ejemplo. Genera cada secreto con:
+#   node -e "console.log(require('crypto').randomBytes(48).toString('hex'))"
+
+services:
+  postgres:
+    environment:
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?Definí DB_PASSWORD (ver comentario arriba)}
+
+  ml_engine:
+    environment:
+      ML_INTERNAL_SECRET: ${ML_INTERNAL_SECRET:?Definí ML_INTERNAL_SECRET}
+      DATABASE_URL: postgresql://postgres:${DB_PASSWORD:?Definí DB_PASSWORD}@postgres:5432/frutransport_db
+
+  backend:
+    environment:
+      DATABASE_URL: postgresql://postgres:${DB_PASSWORD:?Definí DB_PASSWORD}@postgres:5432/frutransport_db?schema=public
+      JWT_SECRET: ${JWT_SECRET:?Definí JWT_SECRET}
+      ML_INTERNAL_SECRET: ${ML_INTERNAL_SECRET:?Definí ML_INTERNAL_SECRET}
+      # Dominio(s) real(es) del frontend, separados por coma si hay más de uno.
+      CORS_ORIGIN: ${CORS_ORIGIN:?Definí CORS_ORIGIN (dominio real del frontend)}
+      # Forzado a false pase lo que pase en el entorno — en producción nunca
+      # se crean automáticamente las cuentas demo. Sembrar datos reales es
+      # una decisión manual aparte (docker compose exec backend node
+      # prisma/seed.js, si de verdad se quiere el dataset de entrenamiento
+      # en este entorno).
+      RUN_SEED: "false"
+
+  frontend:
+    # !override (no fusiona): reemplaza el 8080 de la demo por 80+443.
+    # :80 solo redirige a :443 (ver nginx.conf) — TLS lo termina el propio
+    # nginx con un certificado Origin CA de Cloudflare (modo Full-strict).
+    ports: !override
+      - "80:80"
+      - "443:443"
+    volumes:
+      # Cert Origin CA de Cloudflare, generado en su dashboard (SSL/TLS →
+      # Origin Server → Create Certificate). Vive SOLO en el VPS, nunca en
+      # el repo: colocar origin.pem/origin.key en /etc/cloudflare del host.
+      - /etc/cloudflare:/etc/nginx/certs:ro

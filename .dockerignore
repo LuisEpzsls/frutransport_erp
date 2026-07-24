@@ -1,0 +1,14 @@
+# Contexto raíz (usado por backend/Dockerfile)
+node_modules
+**/node_modules
+.venv
+**/__pycache__
+**/dist
+.git
+.github
+.claude
+imagenes
+*.md
+frontend
+database
+backend/.env

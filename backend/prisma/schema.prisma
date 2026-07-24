@@ -1,0 +1,279 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ── Usuarios ERP internos ──────────────────────────────────────────
+model Usuario {
+  id           String       @id @default(uuid())
+  email        String       @unique
+  passwordHash String       @map("password_hash")
+  role         RolERP
+  activo       Boolean      @default(true)
+  creadoEn     DateTime     @default(now()) @map("creado_en")
+  actualizadoEn DateTime    @updatedAt @map("actualizado_en")
+
+  cotizaciones  Cotizacion[]
+  departamentos UsuarioDepartamento[]
+  notificaciones Notificacion[]
+
+  @@map("usuarios")
+}
+
+// ── Acceso por rubro: qué usuarios ERP administran qué departamentos ──
+// AUDITOR no participa de esta tabla (su función es auditar todos los
+// rubros); ADMIN/MANAGER solo ven/operan los departamentos aquí asignados.
+model UsuarioDepartamento {
+  id             Int          @id @default(autoincrement())
+  usuarioId      String       @map("usuario_id")
+  usuario        Usuario      @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  departamentoId Int          @map("departamento_id")
+  departamento   Departamento @relation(fields: [departamentoId], references: [id], onDelete: Cascade)
+  creadoEn       DateTime     @default(now()) @map("creado_en")
+
+  @@unique([usuarioId, departamentoId])
+  @@map("usuario_departamentos")
+}
+
+// ── Clientes externos (registro desde la landing) ──────────────────
+model Cliente {
+  id           String       @id @default(uuid())
+  nombreCompleto String     @map("nombre_completo")
+  empresa      String?
+  pais         String?
+  telefono     String?
+  email        String       @unique
+  // null = registro sin acceso al portal todavía (creado desde la
+  // cotización, solo para seguimiento); se completa al "activar acceso".
+  passwordHash String?      @map("password_hash")
+  verificado   Boolean      @default(false)
+  activo       Boolean      @default(true)
+  creadoEn     DateTime     @default(now()) @map("creado_en")
+  actualizadoEn DateTime    @updatedAt @map("actualizado_en")
+
+  cotizaciones Cotizacion[]
+
+  @@map("clientes")
+}
+
+// ── Catálogo de productos (agroexportación) ────────────────────────
+// Administrable desde /admin/catalogo — el modelo ML solo predice para
+// las categorías con las que fue entrenado; una entrada nueva aquí es
+// seleccionable en el cotizador pero no será predecible hasta que haya
+// cotizaciones liquidadas con ella y se reentrene (ver GET /api/ml/categorias).
+model Producto {
+  id       Int      @id @default(autoincrement())
+  nombre   String   @unique
+  activo   Boolean  @default(true)
+  creadoEn DateTime @default(now()) @map("creado_en")
+
+  @@map("productos")
+}
+
+// ── Catálogo de destinos (países + "Nacional") ──────────────────────
+model Destino {
+  id       Int      @id @default(autoincrement())
+  nombre   String   @unique
+  activo   Boolean  @default(true)
+  creadoEn DateTime @default(now()) @map("creado_en")
+
+  @@map("destinos")
+}
+
+// ── Cotizaciones ───────────────────────────────────────────────────
+model Cotizacion {
+  id              Int          @id @default(autoincrement())
+  producto        String
+  variedad        String?
+  // Nullable: un borrador recién creado (autoguardado apenas se toca el
+  // formulario) puede no tener aún estos valores completos.
+  volumenTon      Float?       @map("volumen_ton")
+  destino         String
+  tipoCargamento            String?      @map("tipo_cargamento")
+  pesoNetoCaja              Float?       @map("peso_neto_caja")
+  precioMpKg                Float?       @map("precio_mp_kg")
+  // Materia prima: decisión independiente de negocio (se negocia la cosecha
+  // completa y su precio por kg, no se deriva de las cajas del contenedor).
+  cajasContenedor           Int?         @map("cajas_contenedor")
+  kgCosechaComprados        Float?       @map("kg_cosecha_comprados")
+  costoMaquila              Float?       @map("costo_maquila")
+  costoAgenciamiento        Float?       @map("costo_agenciamiento")
+  costoAgenciamientoMoneda  Moneda?      @map("costo_agenciamiento_moneda")
+  costoSli                  Float?       @map("costo_sli")
+  costoSliMoneda            Moneda?      @map("costo_sli_moneda")
+  // Recupero por venta del descarte (monto POSITIVO recuperado — se resta
+  // del costo total en la fórmula). Campo dedicado en vez de un "gasto
+  // adicional" genérico: es estructural en toda operación real (todo
+  // contenedor tiene descarte) y no debe poder borrarse por accidente junto
+  // con un gasto suelto ni depender de que el usuario recuerde poner el signo.
+  recuperoDescarte          Float?       @map("recupero_descarte")
+  recuperoDescarteMoneda    Moneda?      @map("recupero_descarte_moneda")
+  tipoCambio                Float?       @map("tipo_cambio")
+  mes                       Int?         @map("mes")
+  porcentajeDescarteEstimado Float?      @map("porcentaje_descarte_estimado")
+  porcentajeDescarteReal    Float?       @map("porcentaje_descarte_real")
+  costoTotalEstimado        Float?       @map("costo_total_estimado")
+  costoTotalReal            Float?       @map("costo_total_real")
+  // Utilidad: % que el cotizador elige sobre el subtotal de costos (todo
+  // incluido) para llegar al precio de venta / FOB por caja.
+  utilidadPct               Float?       @map("utilidad_pct")
+  precioVentaEstimado       Float?       @map("precio_venta_estimado")
+  precioFobCajaEstimado     Float?       @map("precio_fob_caja_estimado")
+  utilidadRealPct           Float?       @map("utilidad_real_pct")
+  precioVentaReal           Float?       @map("precio_venta_real")
+  precioFobCajaReal         Float?       @map("precio_fob_caja_real")
+  // Trazabilidad de logística (reemplaza el registro manual en CONTENEDORES.xlsx).
+  numeroBooking             String?      @map("numero_booking")
+  fechaCosechaInicio        DateTime?    @map("fecha_cosecha_inicio")
+  fechaCosechaFin           DateTime?    @map("fecha_cosecha_fin")
+  fechaProcesamiento        DateTime?    @map("fecha_procesamiento")
+  fechaLlenadoDespacho      DateTime?    @map("fecha_llenado_despacho")
+  numeroContenedorLogistica String?      @map("numero_contenedor_logistica")
+  // Venta real (distinta del precio de venta OBJETIVO que ya calculamos como
+  // costo + utilidad): valorVentaOc es lo pactado en la orden de compra (se
+  // conoce al aprobar), valorVentaFactura es lo REALMENTE facturado (se
+  // conoce al liquidar) — puede ser menor al objetivo, y es la única forma
+  // de saber si un contenedor ganó o perdió dinero de verdad.
+  valorVentaOc              Float?       @map("valor_venta_oc")
+  valorVentaOcMoneda        Moneda?      @map("valor_venta_oc_moneda")
+  valorVentaFactura         Float?       @map("valor_venta_factura")
+  valorVentaFacturaMoneda   Moneda?      @map("valor_venta_factura_moneda")
+  // Numeración secuencial: asignada UNA sola vez al crear el borrador (nunca
+  // se recalcula en PATCH), para que no cambie si se crean otras cotizaciones
+  // en simultáneo. numeroContenedorGeneral cuenta por rubro excluyendo el
+  // dataset sintético (así continúa la numeración real CNT 01-13 del Excel);
+  // numeroContenedorCliente cuenta solo las cotizaciones de ese cliente.
+  numeroContenedorGeneral   Int?         @map("numero_contenedor_general")
+  numeroContenedorCliente   Int?         @map("numero_contenedor_cliente")
+  estado          EstadoCot    @default(PENDIENTE)
+  notas           String?
+  creadoEn        DateTime     @default(now()) @map("creado_en")
+  actualizadoEn   DateTime     @updatedAt @map("actualizado_en")
+
+  usuarioId       String?      @map("usuario_id")
+  usuario         Usuario?     @relation(fields: [usuarioId], references: [id])
+
+  clienteId       String?      @map("cliente_id")
+  cliente         Cliente?     @relation(fields: [clienteId], references: [id])
+
+  departamentoId  Int          @map("departamento_id")
+  departamento    Departamento @relation(fields: [departamentoId], references: [id])
+
+  gastos              GastoCotizacion[]
+  lotesMateriaPrima   LoteMateriaPrima[]
+  lotesDescarteVendido LoteDescarteVendido[]
+
+  @@map("cotizaciones")
+}
+
+// ── Gastos adicionales de una cotización ───────────────────────────
+// La estructura de costos real es variable (supervisión, fletes de
+// camiones, jabas, laboratorio, extracostos, etc. — ver CONTENEDORES.xlsx).
+// Monto negativo = recupero/descuento (p. ej. venta de descarte).
+model GastoCotizacion {
+  id           Int        @id @default(autoincrement())
+  concepto     String
+  monto        Float
+  moneda       Moneda     @default(PEN)
+  creadoEn     DateTime   @default(now()) @map("creado_en")
+
+  cotizacionId Int        @map("cotizacion_id")
+  cotizacion   Cotizacion @relation(fields: [cotizacionId], references: [id], onDelete: Cascade)
+
+  @@map("gastos_cotizacion")
+}
+
+// Desglose de la compra de materia prima por lote/camión (p. ej. "Primer
+// camión", "Complemento para completar CNT") — puramente informativo/
+// trazabilidad, no participa de la fórmula de costos (kgCosechaComprados ya
+// es la fuente de verdad); el cotizador avisa si la suma no coincide.
+model LoteMateriaPrima {
+  id           Int        @id @default(autoincrement())
+  etiqueta     String
+  kg           Float
+  creadoEn     DateTime   @default(now()) @map("creado_en")
+
+  cotizacionId Int        @map("cotizacion_id")
+  cotizacion   Cotizacion @relation(fields: [cotizacionId], references: [id], onDelete: Cascade)
+
+  @@map("lotes_materia_prima")
+}
+
+// Desglose de la venta del descarte por lote (kg vendidos a un precio por kg
+// distinto cada uno, p. ej. 1490.3 kg a $0.40 + 30.6 kg a $0.20) — el monto
+// se calcula solo (kg × precioKg) y se suma automáticamente al campo
+// dedicado `recuperoDescarte` de la cotización, en vez de pedirle al
+// cotizador que sume el total a mano.
+model LoteDescarteVendido {
+  id           Int        @id @default(autoincrement())
+  kg           Float
+  precioKg     Float      @map("precio_kg")
+  moneda       Moneda     @default(PEN)
+  creadoEn     DateTime   @default(now()) @map("creado_en")
+
+  cotizacionId Int        @map("cotizacion_id")
+  cotizacion   Cotizacion @relation(fields: [cotizacionId], references: [id], onDelete: Cascade)
+
+  @@map("lotes_descarte_vendido")
+}
+
+// ── Departamentos / Divisiones (rubros que administra el ERP) ──────
+model Departamento {
+  id          Int      @id @default(autoincrement())
+  nombre      String   @unique
+  slug        String   @unique
+  descripcion String?
+  activo      Boolean  @default(true)
+  orden       Int      @default(0)
+  creadoEn    DateTime @default(now()) @map("creado_en")
+
+  cotizaciones Cotizacion[]
+  usuarios     UsuarioDepartamento[]
+
+  @@map("departamentos")
+}
+
+// ── Notificaciones del ERP (central propia, no derivada) ───────────
+model Notificacion {
+  id        Int      @id @default(autoincrement())
+  usuarioId String   @map("usuario_id")
+  usuario   Usuario  @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  tipo      String   // 'cotizacion_creada' | 'cotizacion_liquidada'
+  mensaje   String
+  link      String?
+  leida     Boolean  @default(false)
+  creadoEn  DateTime @default(now()) @map("creado_en")
+
+  @@index([usuarioId, leida])
+  @@map("notificaciones")
+}
+
+// ── Enums ──────────────────────────────────────────────────────────
+enum RolERP {
+  ADMIN
+  MANAGER
+  AUDITOR
+
+  @@map("rol_erp")
+}
+
+enum EstadoCot {
+  PENDIENTE
+  APROBADA
+  EN_TRANSITO
+  LIQUIDADA
+  RECHAZADA
+
+  @@map("estado_cot")
+}
+
+enum Moneda {
+  PEN
+  USD
+
+  @@map("moneda")
+}

@@ -1,0 +1,13 @@
+fastapi>=0.111.0
+uvicorn[standard]>=0.30.0
+pandas>=2.2.0
+# Fijadas EXACTAS a la version del .venv que entrena el modelo:
+# un pkl de scikit-learn no es portable entre versiones distintas.
+scikit-learn==1.8.0
+numpy==2.4.5
+joblib==1.5.3
+pydantic>=2.7.0
+sqlalchemy>=2.0.0
+psycopg2-binary>=2.9.0
+python-dotenv>=1.0.0
+matplotlib>=3.9.0

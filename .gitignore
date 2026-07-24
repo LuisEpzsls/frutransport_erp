@@ -1,0 +1,42 @@
+# ── Node ───────────────────────────────
+node_modules/
+dist/
+.env
+*.log
+npm-debug.log*
+
+# ── Python ─────────────────────────────
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+# modelos entrenados (grandes)
+*.pkl
+.pytest_cache/
+
+# ── Base de datos ───────────────────────
+*.db
+*.sqlite3
+
+# ── OS ─────────────────────────────────
+.DS_Store
+Thumbs.db
+
+# ── IDEs ────────────────────────────────
+.vscode/
+.idea/
+*.swp
+
+# ── Herramientas locales ─────────────────
+.claude/
+CLAUDE.md
+
+# ── Credenciales ─────────────────────────
+credentials.md
+credentials*.md
+
+# Datos crudos de la empresa (sensibles)
+CONTENEDORES.xlsx
+~$*.xlsx
+imagenes/

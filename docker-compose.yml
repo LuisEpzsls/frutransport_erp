@@ -1,0 +1,94 @@
+# Demo de sustentación: `docker compose up` levanta los 4 servicios.
+# Frontend en http://localhost:8080 (nginx proxy /api → backend → ml_engine).
+# Sobrescribe los secretos con un archivo .env en la raíz si lo deseas.
+#
+# Para producción, agregar el override que exige secretos reales y desactiva
+# el seed automático (ver docker-compose.prod.yml):
+#   docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
+
+# Límite de logs común a los 4 servicios — el driver json-file de Docker no
+# rota por defecto; sin esto, los logs (incluido el log-por-request del
+# backend) pueden llenar el disco de una VPS chica en meses de uso.
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "3"
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-frutransport_demo}
+      POSTGRES_DB: frutransport_db
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d frutransport_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+    logging: *default-logging
+
+  ml_engine:
+    build: ./ml_engine
+    environment:
+      ML_INTERNAL_SECRET: ${ML_INTERNAL_SECRET:-secreto-interno-demo}
+      # Para reentrenar dentro del contenedor: docker compose exec ml_engine python model/train.py
+      DATABASE_URL: postgresql://postgres:${DB_PASSWORD:-frutransport_demo}@postgres:5432/frutransport_db
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+    logging: *default-logging
+
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    environment:
+      PORT: 5000
+      NODE_ENV: production
+      DATABASE_URL: postgresql://postgres:${DB_PASSWORD:-frutransport_demo}@postgres:5432/frutransport_db?schema=public
+      JWT_SECRET: ${JWT_SECRET:-cambia-este-secreto-antes-de-exponer-la-demo}
+      JWT_EXPIRES_IN: 8h
+      ML_ENGINE_URL: http://ml_engine:8000
+      ML_INTERNAL_SECRET: ${ML_INTERNAL_SECRET:-secreto-interno-demo}
+      # Solo para esta demo local: siembra usuarios/datos de ejemplo en cada
+      # arranque. En producción, dejar sin definir (o RUN_SEED=false) para
+      # que NO se creen cuentas con contraseñas conocidas automáticamente.
+      RUN_SEED: ${RUN_SEED:-true}
+      CORS_ORIGIN: ${CORS_ORIGIN:-}
+      # Contraseñas de las cuentas de seed: NUNCA hardcodeadas acá. Si no se
+      # definen (root .env, gitignored), seed.js genera una aleatoria e
+      # impredecible por cuenta — ver credentials.md para los valores en uso.
+      SEED_ADMIN_PASSWORD: ${SEED_ADMIN_PASSWORD:-}
+      SEED_MANAGER_PASSWORD: ${SEED_MANAGER_PASSWORD:-}
+      SEED_AUDITOR_PASSWORD: ${SEED_AUDITOR_PASSWORD:-}
+      SEED_CLIENTE1_PASSWORD: ${SEED_CLIENTE1_PASSWORD:-}
+      SEED_CLIENTE2_PASSWORD: ${SEED_CLIENTE2_PASSWORD:-}
+    # Sin puerto publicado al host: nginx (frontend) ya proxea /api/ acá
+    # dentro de la red interna de Docker — exponer :5000 directo al exterior
+    # era superficie de ataque innecesaria (bypassea el proxy, no el rate
+    # limit/helmet, pero sin ninguna ganancia real).
+    depends_on:
+      postgres:
+        condition: service_healthy
+      ml_engine:
+        condition: service_started
+    restart: unless-stopped
+    logging: *default-logging
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+    logging: *default-logging
+
+volumes:
+  pgdata:
