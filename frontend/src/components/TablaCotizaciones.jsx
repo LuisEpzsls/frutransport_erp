@@ -51,7 +51,7 @@ const origenDe = (c) => {
 };
 
 /** Documento imprimible del detalle (el diálogo de impresión permite "Guardar como PDF"). */
-function descargarPdf(c) {
+function descargarPdf(c, vistaExterna) {
   const origen = origenDe(c);
   const gastosRows = (c.gastos ?? [])
     .map((g) => `<tr><td>${g.concepto}</td><td class="num">${g.moneda === 'PEN' ? 'S/' : 'USD'} ${g.monto.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td></tr>`)
@@ -83,7 +83,7 @@ function descargarPdf(c) {
 </style></head><body>
   <div class="brand"><h1>Frutransport</h1><span>Agroexportación · Detalle de cotización</span></div>
   <h2>Cotización #${c.id}<span class="origen">${origen.label}</span></h2>
-  <div class="meta">Registrada el ${fmtFecha(c.creadoEn)} · Estado: ${c.estado} · Usuario: ${c.usuario?.email ?? '—'}${c.numeroContenedorGeneral != null ? ` · Contenedor N° ${c.numeroContenedorGeneral}` : ''}</div>
+  <div class="meta">Registrada el ${fmtFecha(c.creadoEn)} · Estado: ${c.estado}${!vistaExterna ? ` · Usuario: ${c.usuario?.email ?? '—'}` : ''}${c.numeroContenedorGeneral != null ? ` · Contenedor N° ${c.numeroContenedorGeneral}` : ''}</div>
 
   <table><caption>Operación</caption>
     <tr><td>Producto</td><td class="num">${c.producto}${c.variedad ? ` (${c.variedad})` : ''}</td></tr>
@@ -92,26 +92,28 @@ function descargarPdf(c) {
     <tr><td>Volumen</td><td class="num">${c.volumenTon != null ? `${c.volumenTon} t` : '—'}</td></tr>
     <tr><td>Peso neto por caja</td><td class="num">${c.pesoNetoCaja != null ? `${c.pesoNetoCaja} kg` : '—'}</td></tr>
     <tr><td>Cajas por contenedor</td><td class="num">${c.cajasContenedor ?? '—'}</td></tr>
-    <tr><td>Precio materia prima negociado</td><td class="num">${c.precioMpKg != null ? `S/ ${c.precioMpKg} · kg` : '—'}</td></tr>
-    <tr><td>Kg de cosecha comprados</td><td class="num">${c.kgCosechaComprados ?? '—'}</td></tr>
-    ${c.recuperoDescarte != null ? `<tr><td>Recupero por venta de descarte</td><td class="num">${c.recuperoDescarteMoneda === 'PEN' ? 'S/' : '$'} ${c.recuperoDescarte}</td></tr>` : ''}
+    ${!vistaExterna ? `<tr><td>Precio materia prima negociado</td><td class="num">${c.precioMpKg != null ? `S/ ${c.precioMpKg} · kg` : '—'}</td></tr>` : ''}
+    ${!vistaExterna ? `<tr><td>Kg de cosecha comprados</td><td class="num">${c.kgCosechaComprados ?? '—'}</td></tr>` : ''}
+    ${!vistaExterna && c.recuperoDescarte != null ? `<tr><td>Recupero por venta de descarte</td><td class="num">${c.recuperoDescarteMoneda === 'PEN' ? 'S/' : '$'} ${c.recuperoDescarte}</td></tr>` : ''}
   </table>
 
-  ${(c.valorVentaOc != null || c.valorVentaFactura != null) ? `<table><caption>Venta real (vs. objetivo costo + utilidad)</caption>
+  ${(c.valorVentaOc != null || c.valorVentaFactura != null) ? `<table><caption>${vistaExterna ? 'Venta' : 'Venta real (vs. objetivo costo + utilidad)'}</caption>
     ${c.valorVentaOc != null ? `<tr><td>Venta pactada (orden/contrato)</td><td class="num">${c.valorVentaOcMoneda === 'PEN' ? 'S/' : '$'} ${c.valorVentaOc}</td></tr>` : ''}
     ${c.valorVentaFactura != null ? `<tr><td>Venta real facturada</td><td class="num">${c.valorVentaFacturaMoneda === 'PEN' ? 'S/' : '$'} ${c.valorVentaFactura}</td></tr>` : ''}
-    ${c.resultadoCostoDirecto != null ? `<tr><td>Resultado (venta real − costo)</td><td class="num">${fmtUsd(c.resultadoCostoDirecto)}</td></tr>` : ''}
-    ${c.resultadoConUtilidad != null ? `<tr><td>Resultado (venta real − costo con utilidad)</td><td class="num">${fmtUsd(c.resultadoConUtilidad)}</td></tr>` : ''}
+    ${!vistaExterna && c.resultadoCostoDirecto != null ? `<tr><td>Resultado (venta real − costo)</td><td class="num">${fmtUsd(c.resultadoCostoDirecto)}</td></tr>` : ''}
+    ${!vistaExterna && c.resultadoConUtilidad != null ? `<tr><td>Resultado (venta real − costo con utilidad)</td><td class="num">${fmtUsd(c.resultadoConUtilidad)}</td></tr>` : ''}
   </table>` : ''}
 
-  <table><caption>Estimado vs real</caption>
+  ${!vistaExterna ? `<table><caption>Estimado vs real</caption>
     <tr><th></th><th class="num">Estimado</th><th class="num">Real</th></tr>
     <tr><td>Porcentaje de descarte</td><td class="num">${fmtPct(c.porcentajeDescarteEstimado)}</td><td class="num">${fmtPct(c.porcentajeDescarteReal)}</td></tr>
     <tr><td>Costo total del contenedor</td><td class="num">${fmtUsd(c.costoTotalEstimado)}</td><td class="num">${fmtUsd(c.costoTotalReal)}</td></tr>
     <tr><td>% de utilidad</td><td class="num">${fmtPct(c.utilidadPct)}</td><td class="num">${fmtPct(c.utilidadRealPct)}</td></tr>
     <tr><td>Precio de venta total</td><td class="num">${fmtUsd(c.precioVentaEstimado)}</td><td class="num">${fmtUsd(c.precioVentaReal)}</td></tr>
     <tr><td>Precio FOB por caja</td><td class="num">${fmtUsd(c.precioFobCajaEstimado)}</td><td class="num">${fmtUsd(c.precioFobCajaReal)}</td></tr>
-  </table>
+  </table>` : `<table><caption>Precio</caption>
+    <tr><td>Precio FOB por caja</td><td class="num">${fmtUsd(c.precioFobCajaEstimado)} ${c.precioFobCajaReal != null ? `/ ${fmtUsd(c.precioFobCajaReal)} (real)` : ''}</td></tr>
+  </table>`}
 
   ${(c.numeroBooking || c.numeroContenedorLogistica || c.fechaCosechaInicio || c.fechaCosechaFin || c.fechaProcesamiento || c.fechaLlenadoDespacho) ? `<table><caption>Logística y trazabilidad</caption>
     ${c.numeroBooking ? `<tr><td>N° de booking</td><td class="num">${c.numeroBooking}</td></tr>` : ''}
@@ -375,7 +377,7 @@ ModalAprobar.propTypes = {
   onAprobada: PropTypes.func.isRequired,
 };
 
-export function ModalDetalle({ cotizacion: c, onCerrar }) {
+export function ModalDetalle({ cotizacion: c, onCerrar, vistaExterna }) {
   const origen = origenDe(c);
   const fila = (k, v) => (
     <tr>
@@ -395,7 +397,7 @@ export function ModalDetalle({ cotizacion: c, onCerrar }) {
           Cotización #{c.id}
         </h3>
         <p className="erp-sub" style={{ marginBottom: 14 }}>
-          {fmtFecha(c.creadoEn)} · <span className={CLASE_ESTADO[c.estado]}>{c.estado}</span> · {c.usuario?.email ?? '—'}
+          {fmtFecha(c.creadoEn)} · <span className={CLASE_ESTADO[c.estado]}>{c.estado}</span>{!vistaExterna && ` · ${c.usuario?.email ?? '—'}`}
           {c.numeroContenedorGeneral != null && ` · Contenedor N° ${c.numeroContenedorGeneral}${c.numeroContenedorCliente != null ? ` (N° ${c.numeroContenedorCliente} de este cliente)` : ''}`}
         </p>
 
@@ -407,28 +409,28 @@ export function ModalDetalle({ cotizacion: c, onCerrar }) {
             {fila('Volumen', c.volumenTon != null ? `${c.volumenTon} t` : '—')}
             {fila('Peso neto por caja', c.pesoNetoCaja != null ? `${c.pesoNetoCaja} kg` : '—')}
             {fila('Cajas por contenedor', c.cajasContenedor ?? '—')}
-            {fila('Precio materia prima negociado', c.precioMpKg != null ? `S/ ${c.precioMpKg} · kg` : '—')}
-            {fila('Kg de cosecha comprados', c.kgCosechaComprados ?? '—')}
-            {c.recuperoDescarte != null && fila(
+            {!vistaExterna && fila('Precio materia prima negociado', c.precioMpKg != null ? `S/ ${c.precioMpKg} · kg` : '—')}
+            {!vistaExterna && fila('Kg de cosecha comprados', c.kgCosechaComprados ?? '—')}
+            {!vistaExterna && c.recuperoDescarte != null && fila(
               'Recupero por venta de descarte',
               `${c.recuperoDescarteMoneda === 'PEN' ? 'S/' : '$'} ${c.recuperoDescarte}`
             )}
-            {fila('Descarte estimado / real', `${fmtPct(c.porcentajeDescarteEstimado)} / ${fmtPct(c.porcentajeDescarteReal)}`)}
-            {fila('Costo estimado / real', `${fmtUsd(c.costoTotalEstimado)} / ${fmtUsd(c.costoTotalReal)}`)}
-            {fila('% de utilidad estimado / real', `${fmtPct(c.utilidadPct)} / ${fmtPct(c.utilidadRealPct)}`)}
-            {fila('Precio de venta estimado / real', `${fmtUsd(c.precioVentaEstimado)} / ${fmtUsd(c.precioVentaReal)}`)}
+            {!vistaExterna && fila('Descarte estimado / real', `${fmtPct(c.porcentajeDescarteEstimado)} / ${fmtPct(c.porcentajeDescarteReal)}`)}
+            {!vistaExterna && fila('Costo estimado / real', `${fmtUsd(c.costoTotalEstimado)} / ${fmtUsd(c.costoTotalReal)}`)}
+            {!vistaExterna && fila('% de utilidad estimado / real', `${fmtPct(c.utilidadPct)} / ${fmtPct(c.utilidadRealPct)}`)}
+            {!vistaExterna && fila('Precio de venta estimado / real', `${fmtUsd(c.precioVentaEstimado)} / ${fmtUsd(c.precioVentaReal)}`)}
             {fila('Precio FOB por caja estimado / real', `${fmtUsd(c.precioFobCajaEstimado)} / ${fmtUsd(c.precioFobCajaReal)}`)}
           </tbody>
         </table>
 
         {(c.valorVentaOc != null || c.valorVentaFactura != null) && (
           <>
-            <div className="erp-eyebrow" style={{ marginBottom: 6 }}>Venta real (vs. objetivo costo + utilidad)</div>
+            <div className="erp-eyebrow" style={{ marginBottom: 6 }}>{vistaExterna ? 'Venta' : 'Venta real (vs. objetivo costo + utilidad)'}</div>
             <table className="erp-table" style={{ marginBottom: 16 }}>
               <tbody>
                 {c.valorVentaOc != null && fila('Venta pactada (orden/contrato)', `${c.valorVentaOcMoneda === 'PEN' ? 'S/' : '$'} ${c.valorVentaOc}`)}
                 {c.valorVentaFactura != null && fila('Venta real facturada', `${c.valorVentaFacturaMoneda === 'PEN' ? 'S/' : '$'} ${c.valorVentaFactura}`)}
-                {c.resultadoCostoDirecto != null && (
+                {!vistaExterna && c.resultadoCostoDirecto != null && (
                   <tr>
                     <td style={{ fontWeight: 600, color: 'var(--ink)' }}>Resultado (venta real − costo)</td>
                     <td className="num" style={{ fontWeight: 600, color: c.resultadoCostoDirecto < 0 ? 'var(--warn)' : 'var(--accent-2)' }}>
@@ -436,7 +438,7 @@ export function ModalDetalle({ cotizacion: c, onCerrar }) {
                     </td>
                   </tr>
                 )}
-                {c.resultadoConUtilidad != null && (
+                {!vistaExterna && c.resultadoConUtilidad != null && (
                   <tr>
                     <td style={{ fontWeight: 600, color: 'var(--ink)' }}>Resultado (venta real − costo con utilidad)</td>
                     <td className="num" style={{ fontWeight: 600, color: c.resultadoConUtilidad < 0 ? 'var(--warn)' : 'var(--accent-2)' }}>
@@ -531,7 +533,7 @@ export function ModalDetalle({ cotizacion: c, onCerrar }) {
           <button onClick={onCerrar} className="erp-btn erp-btn--ghost" style={{ flex: 1 }}>
             Cerrar
           </button>
-          <button onClick={() => descargarPdf(c)} className="erp-btn erp-btn--primary" style={{ flex: 1, width: 'auto' }}>
+          <button onClick={() => descargarPdf(c, vistaExterna)} className="erp-btn erp-btn--primary" style={{ flex: 1, width: 'auto' }}>
             Descargar PDF
           </button>
         </div>
@@ -543,7 +545,9 @@ export function ModalDetalle({ cotizacion: c, onCerrar }) {
 ModalDetalle.propTypes = {
   cotizacion: PropTypes.object.isRequired,
   onCerrar:   PropTypes.func.isRequired,
+  vistaExterna: PropTypes.bool,
 };
+ModalDetalle.defaultProps = { vistaExterna: false };
 
 export default function TablaCotizaciones({ soloLectura, departamentoId, rubroNombre, vistaExterna }) {
   const { user } = useAuth();
@@ -620,8 +624,8 @@ export default function TablaCotizaciones({ soloLectura, departamentoId, rubroNo
                   <th>Fecha</th>
                   <th>Producto</th>
                   <th>Destino</th>
-                  <th style={{ textAlign: 'right' }}>Descarte est. / real</th>
-                  <th style={{ textAlign: 'right' }}>Costo est. / real</th>
+                  {!vistaExterna && <th style={{ textAlign: 'right' }}>Descarte est. / real</th>}
+                  {!vistaExterna && <th style={{ textAlign: 'right' }}>Costo est. / real</th>}
                   <th style={{ textAlign: 'center' }}>Estado</th>
                   {!vistaExterna && <th style={{ textAlign: 'center' }}>Origen</th>}
                   {!vistaExterna && <th>Usuario</th>}
@@ -634,16 +638,20 @@ export default function TablaCotizaciones({ soloLectura, departamentoId, rubroNo
                     <td className="mono" style={{ fontSize: 12 }}>{fmtFecha(c.creadoEn)}</td>
                     <td style={{ color: 'var(--ink)', fontWeight: 500 }}>{c.producto}</td>
                     <td>{c.destino}</td>
-                    <td className="num">
-                      <span style={{ color: 'var(--ink-3)' }}>{fmtPct(c.porcentajeDescarteEstimado)}</span>
-                      {' / '}
-                      <span style={{ color: 'var(--ink)' }}>{fmtPct(c.porcentajeDescarteReal)}</span>
-                    </td>
-                    <td className="num">
-                      <span style={{ color: 'var(--ink-3)' }}>{fmtUsd(c.costoTotalEstimado)}</span>
-                      {' / '}
-                      <span style={{ color: 'var(--ink)' }}>{fmtUsd(c.costoTotalReal)}</span>
-                    </td>
+                    {!vistaExterna && (
+                      <td className="num">
+                        <span style={{ color: 'var(--ink-3)' }}>{fmtPct(c.porcentajeDescarteEstimado)}</span>
+                        {' / '}
+                        <span style={{ color: 'var(--ink)' }}>{fmtPct(c.porcentajeDescarteReal)}</span>
+                      </td>
+                    )}
+                    {!vistaExterna && (
+                      <td className="num">
+                        <span style={{ color: 'var(--ink-3)' }}>{fmtUsd(c.costoTotalEstimado)}</span>
+                        {' / '}
+                        <span style={{ color: 'var(--ink)' }}>{fmtUsd(c.costoTotalReal)}</span>
+                      </td>
+                    )}
                     <td style={{ textAlign: 'center' }}>
                       <span className={CLASE_ESTADO[c.estado] ?? 'erp-badge erp-badge--neutral'}>
                         {c.estado}
@@ -709,7 +717,7 @@ export default function TablaCotizaciones({ soloLectura, departamentoId, rubroNo
                 ))}
                 {respuesta.data.length === 0 && (
                   <tr>
-                    <td colSpan={vistaExterna ? 7 : 9} style={{ textAlign: 'center', padding: 32, color: 'var(--ink-3)' }}>
+                    <td colSpan={vistaExterna ? 5 : 9} style={{ textAlign: 'center', padding: 32, color: 'var(--ink-3)' }}>
                       Sin cotizaciones registradas.
                     </td>
                   </tr>
@@ -762,7 +770,7 @@ export default function TablaCotizaciones({ soloLectura, departamentoId, rubroNo
       )}
 
       {detalle && (
-        <ModalDetalle cotizacion={detalle} onCerrar={() => setDetalle(null)} />
+        <ModalDetalle cotizacion={detalle} onCerrar={() => setDetalle(null)} vistaExterna={vistaExterna} />
       )}
     </div>
   );

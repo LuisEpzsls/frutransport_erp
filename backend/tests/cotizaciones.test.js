@@ -176,6 +176,75 @@ test('GET /api/cotizaciones como CLIENTE se restringe a sus propias cotizaciones
   expect(mockUsuarioDepartamentoFindMany).not.toHaveBeenCalled();
 });
 
+// El cliente solo debe ver el precio FOB por caja de su propio contenedor,
+// nunca el costo interno ni el % de utilidad (información confidencial de
+// la empresa) — reproduce el hallazgo de que el portal cliente exponía el
+// registro completo sin filtrar campos por rol.
+test('GET /api/cotizaciones como CLIENTE no incluye costo, utilidad ni desglose interno', async () => {
+  mockFindMany.mockResolvedValueOnce([{
+    id: 1, producto: 'Palta Hass', destino: 'España', cajasContenedor: 2400,
+    precioFobCajaEstimado: 19.34, precioFobCajaReal: null,
+    precioMpKg: 3.486, kgCosechaComprados: 26000,
+    costoTotalEstimado: 12882.13, costoTotalReal: 42977.87,
+    utilidadPct: 0.08, utilidadRealPct: 0.08,
+    precioVentaEstimado: 13912.70, precioVentaReal: 46416.10,
+    valorVentaOc: 44352, valorVentaFactura: 39297.34,
+    gastos: [{ concepto: 'Flete', monto: 100, moneda: 'USD' }],
+    lotesMateriaPrima: [{ id: 1, etiqueta: 'Camión 1', kg: 6088.6 }],
+    usuario: { email: 'admin@frutransport.pe' },
+    notas: 'Operación real (CNT 01)',
+  }]);
+
+  const res = await request(app)
+    .get('/api/cotizaciones')
+    .set('Authorization', `Bearer ${tokenDe('CLIENTE')}`);
+
+  expect(res.status).toBe(200);
+  const c = res.body.data[0];
+  // Sí debe ver: el precio que le corresponde y lo que pactó/facturó.
+  expect(c.precioFobCajaEstimado).toBe(19.34);
+  expect(c.valorVentaOc).toBe(44352);
+  expect(c.valorVentaFactura).toBe(39297.34);
+  expect(c.cajasContenedor).toBe(2400);
+  // No debe ver: nada del costo/utilidad interno ni quién lo creó.
+  expect(c.costoTotalEstimado).toBeUndefined();
+  expect(c.costoTotalReal).toBeUndefined();
+  expect(c.utilidadPct).toBeUndefined();
+  expect(c.utilidadRealPct).toBeUndefined();
+  expect(c.precioVentaEstimado).toBeUndefined();
+  expect(c.precioVentaReal).toBeUndefined();
+  expect(c.precioMpKg).toBeUndefined();
+  expect(c.kgCosechaComprados).toBeUndefined();
+  expect(c.gastos).toBeUndefined();
+  expect(c.lotesMateriaPrima).toBeUndefined();
+  expect(c.usuario).toBeUndefined();
+  expect(c.notas).toBeUndefined();
+  expect(c.resultadoCostoDirecto).toBeUndefined();
+  expect(c.resultadoConUtilidad).toBeUndefined();
+});
+
+test('GET /api/cotizaciones/:id como CLIENTE (propia) no incluye costo ni utilidad', async () => {
+  mockFindUnique.mockResolvedValueOnce({
+    id: 1, clienteId: 'u-test', producto: 'Palta Hass', destino: 'España',
+    cajasContenedor: 2400, precioFobCajaEstimado: 19.34,
+    costoTotalReal: 42977.87, utilidadPct: 0.08, precioVentaReal: 46416.10,
+    valorVentaOc: 44352, valorVentaFactura: 39297.34,
+    gastos: [], lotesMateriaPrima: [], lotesDescarteVendido: [],
+    usuario: { email: 'admin@frutransport.pe' },
+  });
+
+  const res = await request(app)
+    .get('/api/cotizaciones/1')
+    .set('Authorization', `Bearer ${tokenDe('CLIENTE')}`);
+
+  expect(res.status).toBe(200);
+  expect(res.body.data.precioFobCajaEstimado).toBe(19.34);
+  expect(res.body.data.costoTotalReal).toBeUndefined();
+  expect(res.body.data.utilidadPct).toBeUndefined();
+  expect(res.body.data.precioVentaReal).toBeUndefined();
+  expect(res.body.data.usuario).toBeUndefined();
+});
+
 test('GET /api/cotizaciones acepta clienteId como filtro (pantalla de Contenedores)', async () => {
   const res = await request(app)
     .get('/api/cotizaciones?departamentoId=1&clienteId=3fa85f64-5717-4562-b3fc-2c963f66afa6')

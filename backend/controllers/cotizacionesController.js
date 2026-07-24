@@ -205,6 +205,40 @@ const conResultado = (c) => {
   };
 };
 
+// Portal CLIENTE: solo ve el precio FOB por caja de su propio contenedor,
+// nunca el desglose de costos ni el % de utilidad (varía por operación y
+// es información interna) — allowlist explícita en vez de negar campos
+// puntuales, para que un campo sensible nuevo no se filtre por descuido.
+const sanitizarParaCliente = (c) => ({
+  id: c.id,
+  producto: c.producto,
+  variedad: c.variedad,
+  destino: c.destino,
+  volumenTon: c.volumenTon,
+  tipoCargamento: c.tipoCargamento,
+  pesoNetoCaja: c.pesoNetoCaja,
+  cajasContenedor: c.cajasContenedor,
+  precioFobCajaEstimado: c.precioFobCajaEstimado,
+  precioFobCajaReal: c.precioFobCajaReal,
+  valorVentaOc: c.valorVentaOc,
+  valorVentaOcMoneda: c.valorVentaOcMoneda,
+  valorVentaFactura: c.valorVentaFactura,
+  valorVentaFacturaMoneda: c.valorVentaFacturaMoneda,
+  numeroBooking: c.numeroBooking,
+  numeroContenedorLogistica: c.numeroContenedorLogistica,
+  numeroContenedorGeneral: c.numeroContenedorGeneral,
+  numeroContenedorCliente: c.numeroContenedorCliente,
+  fechaCosechaInicio: c.fechaCosechaInicio,
+  fechaCosechaFin: c.fechaCosechaFin,
+  fechaProcesamiento: c.fechaProcesamiento,
+  fechaLlenadoDespacho: c.fechaLlenadoDespacho,
+  estado: c.estado,
+  creadoEn: c.creadoEn,
+  actualizadoEn: c.actualizadoEn,
+  clienteId: c.clienteId,
+  departamento: c.departamento,
+});
+
 // ── GET /api/cotizaciones?page=1&estado=PENDIENTE&departamentoId=1 ─────────
 // Sin departamentoId: ADMIN/AUDITOR ven todo, MANAGER ve solo sus rubros
 // asignados. Con departamentoId: se exige acceso a ese rubro puntual.
@@ -273,7 +307,9 @@ const listar = async (req, res, next) => {
       prisma.cotizacion.count({ where }),
     ]);
 
-    res.json({ data: data.map(conResultado), total, page, pages: Math.ceil(total / take) });
+    const conResultados = data.map(conResultado);
+    const salida = req.user.role === 'CLIENTE' ? conResultados.map(sanitizarParaCliente) : conResultados;
+    res.json({ data: salida, total, page, pages: Math.ceil(total / take) });
   } catch (err) {
     next(err);
   }
@@ -371,7 +407,9 @@ const obtener = async (req, res, next) => {
       if (cotizacion.clienteId !== req.user.id) {
         return res.status(404).json({ error: 'Cotización no encontrada' });
       }
-    } else if (!(await tieneAccesoDepartamento(prisma, req.user, cotizacion.departamentoId))) {
+      return res.json({ data: sanitizarParaCliente(conResultado(cotizacion)) });
+    }
+    if (!(await tieneAccesoDepartamento(prisma, req.user, cotizacion.departamentoId))) {
       return res.status(403).json({ error: 'Sin acceso a ese rubro' });
     }
 
