@@ -522,10 +522,10 @@ export default function MLCotizaciones() {
         )}
       </p>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0,1.15fr) minmax(0,1fr)', gap: 22, alignItems: 'start' }}>
+      <div className="erp-form-split">
         {/* ── Columna 1: formulario ─────────────────────────────────── */}
         <section className="erp-card erp-card-pad">
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+          <div className="erp-field-pair">
             <div style={{ gridColumn: '1 / -1' }}>
               <label className="erp-label">Cliente (opcional)</label>
               <select value={clienteId} onChange={(e) => setClienteId(e.target.value)} className="erp-select">
@@ -664,7 +664,7 @@ export default function MLCotizaciones() {
               en CONTENEDORES.xlsx) — no afectan el costo ni la predicción ML. */}
           <div style={{ marginTop: 24, borderTop: '1px dashed var(--line-2)', paddingTop: 16 }}>
             <span className="erp-eyebrow">Datos de logística y trazabilidad (opcional)</span>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, marginTop: 10 }}>
+            <div className="erp-field-pair" style={{ marginTop: 10 }}>
               {CAMPOS_LOGISTICA.map(({ key, label, tipo }) => (
                 <div key={key}>
                   <label className="erp-label">{label}</label>

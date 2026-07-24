@@ -270,7 +270,7 @@ function ModalClienteNuevo({ onCerrar, onGuardado }) {
         <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="erp-input" style={{ marginBottom: 14 }} />
         <label className="erp-label">Empresa (opcional)</label>
         <input type="text" value={empresa} onChange={(e) => setEmpresa(e.target.value)} className="erp-input" style={{ marginBottom: 14 }} />
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 20 }}>
+        <div className="erp-field-pair" style={{ marginBottom: 20 }}>
           <div>
             <label className="erp-label">País (opcional)</label>
             <input type="text" value={pais} onChange={(e) => setPais(e.target.value)} className="erp-input" />
