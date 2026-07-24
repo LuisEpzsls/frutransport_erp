@@ -3,10 +3,11 @@ import { STRINGS } from "../i18n/strings.js";
 import ImagePlaceholder from "./ImagePlaceholder.jsx";
 
 // Mismo orden que products.list en strings.js (idéntico en los 4 idiomas):
-// Mandarina, Palta, Arándano, Uva, Mango, Espárrago. Se usa el slug, no el
-// índice numérico, para que reordenar products.list no desalinee las fotos
+// Mandarina, Palta — los 2 productos reales de exportación verificados
+// (Veritrade, RUC 20609731045). El slug (no el índice numérico) selecciona
+// la foto, para que reordenar products.list no desalinee las fotos
 // (images.js expone "product-<slug>").
-const PRODUCT_SLUGS = ["mandarina", "palta", "arandano", "uva", "mango", "esparrago"];
+const PRODUCT_SLUGS = ["mandarina", "palta"];
 
 function SeasonCalendar({ months, monthLabels, peakLabel, activeLabel }) {
   return (
@@ -58,7 +59,7 @@ export default function ProductsGrid() {
               <div className="pimg">
                 <ImagePlaceholder id={`product-${PRODUCT_SLUGS[i]}`} alt={`${p.name} · ${p.variety}`} />
                 <span className="region-badge"><span className="ddot" />{p.region}</span>
-                <span className="idx">0{i + 1} / 06</span>
+                <span className="idx">0{i + 1} / 0{P.list.length}</span>
               </div>
               <div className="product-body">
                 <span className="pvariety mono">{p.variety}</span>
