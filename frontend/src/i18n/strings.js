@@ -57,7 +57,7 @@ export const STRINGS = {
     divisions: {
       eyebrow: "Divisiones",
       title_a: "Más allá del campo: ", title_em: "seis especialidades", title_b: " que sostienen cada embarque.",
-      lede: "La agroexportación es nuestra raíz, pero treinta y ocho años construyeron capacidades complementarias. Cada división está disponible como servicio para clientes externos.",
+      lede: "La agroexportación es nuestra raíz, y con los años construimos capacidades complementarias. Cada división está disponible como servicio para clientes externos.",
       list: [
         { name: "Agroexportación",     desc: "Acopio, packing y embarque internacional de productos premium. Cumplimiento fitosanitario gestionado de punta a punta.", tags: ["Palta", "Mandarina", "Cadena de frío"] },
         { name: "Importaciones",       desc: "Comercio entrante con agencia aduanera, almacén bonded y distribución de última milla en la red regional.", tags: ["Aduana", "Bonded", "Distribución"] },
@@ -65,6 +65,20 @@ export const STRINGS = {
         { name: "Logística y Mudanzas", desc: "Delivery urbano del mismo día y mudanzas residenciales. Asegurado, con rastreo GPS y enrutado desde la torre central.", tags: ["Delivery", "Mudanzas", "Rastreado"] },
         { name: "Transporte Pesado",   desc: "Carga de largo recorrido, cargas extradimensionadas y asistencia mecánica 24/7 en los corredores clave.", tags: ["Largo recorrido", "Auxilio", "24/7"] },
         { name: "Telecomunicaciones",  desc: "Conectividad, radio de despacho y LTE privado para flota y operaciones de campo. Integrado al ERP del grupo.", tags: ["LTE privado", "Despacho", "ERP"] },
+      ],
+    },
+    clients: {
+      eyebrow: "Confían en nosotros",
+      title_a: "Importadores que ", title_em: "repiten", title_b: ".",
+      lede: "Empresas reales con las que ya operamos, en Europa, Norteamérica y el mercado nacional.",
+      list: [
+        { name: "Palacios Escutia SL",         country: "España" },
+        { name: "Gabriel/Vicente",             country: "México" },
+        { name: "Century Farms Internacional", country: "EE.UU." },
+        { name: "Seforpun EIRL",               country: "Perú" },
+        { name: "Inma Golden",                 country: "Perú" },
+        { name: "Ping Fruit",                  country: "Países Bajos" },
+        { name: "Guerrero Mercovasa SL",       country: "España" },
       ],
     },
     strip: {
@@ -189,7 +203,7 @@ export const STRINGS = {
     divisions: {
       eyebrow: "Divisions",
       title_a: "Beyond the field: ", title_em: "six specialties", title_b: " that hold every shipment up.",
-      lede: "Agro-export is our root, but thirty-eight years built complementary capabilities. Each division is also available as a service to external clients.",
+      lede: "Agro-export is our root, and over the years we built complementary capabilities. Each division is also available as a service to external clients.",
       list: [
         { name: "Agro-Exports",         desc: "Sourcing, packing, and outbound shipment of premium produce. Phyto-sanitary compliance handled end to end.", tags: ["Avocado", "Mandarin", "Cold-chain"] },
         { name: "Imports",              desc: "Inbound commercial trade with customs brokerage, bonded warehousing, and last-mile distribution.", tags: ["Customs", "Bonded", "Distribution"] },
@@ -197,6 +211,20 @@ export const STRINGS = {
         { name: "Logistics & Moving",   desc: "Same-day urban delivery and residential mudanzas. Insured, GPS-tracked, and routed through the central dispatch tower.", tags: ["Delivery", "Mudanzas", "Tracked"] },
         { name: "Heavy Transport",      desc: "Long-haul cargo, oversized loads, and 24/7 mechanical assistance on key corridors.", tags: ["Long-haul", "Recovery", "24/7"] },
         { name: "Telecommunications",   desc: "Connectivity, dispatch radio, and private LTE for fleet and field operations. Integrated with the group's ERP backbone.", tags: ["Private LTE", "Dispatch", "ERP"] },
+      ],
+    },
+    clients: {
+      eyebrow: "Trusted by",
+      title_a: "Importers who ", title_em: "come back", title_b: ".",
+      lede: "Real companies we already work with, across Europe, North America, and the domestic market.",
+      list: [
+        { name: "Palacios Escutia SL",         country: "Spain" },
+        { name: "Gabriel/Vicente",             country: "Mexico" },
+        { name: "Century Farms Internacional", country: "USA" },
+        { name: "Seforpun EIRL",               country: "Peru" },
+        { name: "Inma Golden",                 country: "Peru" },
+        { name: "Ping Fruit",                  country: "Netherlands" },
+        { name: "Guerrero Mercovasa SL",       country: "Spain" },
       ],
     },
     strip: {
@@ -321,7 +349,7 @@ export const STRINGS = {
     divisions: {
       eyebrow: "Divisões",
       title_a: "Além do campo: ", title_em: "seis especialidades", title_b: " que sustentam cada embarque.",
-      lede: "A agroexportação é nossa raiz, mas trinta e oito anos construíram capacidades complementares.",
+      lede: "A agroexportação é nossa raiz, e com os anos construímos capacidades complementares.",
       list: [
         { name: "Agroexportação",    desc: "Sourcing, embalagem e embarque internacional de produtos premium.", tags: ["Abacate", "Tangerina", "Cadeia fria"] },
         { name: "Importações",       desc: "Comércio inbound com despacho aduaneiro e armazém bonded.", tags: ["Aduana", "Bonded", "Distribuição"] },
@@ -329,6 +357,20 @@ export const STRINGS = {
         { name: "Logística e Mudanças", desc: "Delivery urbano same-day e mudanças residenciais.", tags: ["Delivery", "Mudanças", "Rastreado"] },
         { name: "Transporte Pesado", desc: "Carga de longa distância e assistência mecânica 24/7.", tags: ["Longa distância", "Resgate", "24/7"] },
         { name: "Telecomunicações",  desc: "Conectividade e LTE privado para frota e operações de campo.", tags: ["LTE privado", "Despacho", "ERP"] },
+      ],
+    },
+    clients: {
+      eyebrow: "Confiam em nós",
+      title_a: "Importadores que ", title_em: "voltam", title_b: ".",
+      lede: "Empresas reais com as quais já trabalhamos, na Europa, América do Norte e no mercado nacional.",
+      list: [
+        { name: "Palacios Escutia SL",         country: "Espanha" },
+        { name: "Gabriel/Vicente",             country: "México" },
+        { name: "Century Farms Internacional", country: "EUA" },
+        { name: "Seforpun EIRL",               country: "Peru" },
+        { name: "Inma Golden",                 country: "Peru" },
+        { name: "Ping Fruit",                  country: "Países Baixos" },
+        { name: "Guerrero Mercovasa SL",       country: "Espanha" },
       ],
     },
     strip: {
@@ -453,7 +495,7 @@ export const STRINGS = {
     divisions: {
       eyebrow: "业务部门",
       title_a: "超越田间:", title_em: "六大专长", title_b: ",支撑每一次发运。",
-      lede: "农产品出口是我们的根,而三十八年沉淀出互补的能力。",
+      lede: "农产品出口是我们的根,多年来我们建立了互补的能力。",
       list: [
         { name: "农产品出口", desc: "优质农产品的采购、包装与国际运输。", tags: ["鳄梨", "蜜橘", "冷链"] },
         { name: "进口业务",   desc: "进口贸易,含报关代理、保税仓储以及最后一公里配送。", tags: ["报关", "保税", "配送"] },
@@ -461,6 +503,20 @@ export const STRINGS = {
         { name: "物流与搬迁", desc: "城市当日达配送与住宅搬迁。", tags: ["配送", "搬迁", "追踪"] },
         { name: "重型运输",   desc: "长途货运、超限货物以及关键走廊上的 24/7 机械救援。", tags: ["长途", "救援", "24/7"] },
         { name: "电信",       desc: "面向车队和现场作业的连接、调度无线电与专网 LTE。", tags: ["专网 LTE", "调度", "ERP"] },
+      ],
+    },
+    clients: {
+      eyebrow: "客户信赖",
+      title_a: "持续复购的", title_em: "进口商", title_b: "。",
+      lede: "我们已经在合作的真实企业,遍布欧洲、北美和国内市场。",
+      list: [
+        { name: "Palacios Escutia SL",         country: "西班牙" },
+        { name: "Gabriel/Vicente",             country: "墨西哥" },
+        { name: "Century Farms Internacional", country: "美国" },
+        { name: "Seforpun EIRL",               country: "秘鲁" },
+        { name: "Inma Golden",                 country: "秘鲁" },
+        { name: "Ping Fruit",                  country: "荷兰" },
+        { name: "Guerrero Mercovasa SL",       country: "西班牙" },
       ],
     },
     strip: {

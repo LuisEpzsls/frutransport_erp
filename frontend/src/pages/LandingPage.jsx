@@ -5,6 +5,7 @@ import Hero from "../components/Hero.jsx";
 import ProductsGrid from "../components/ProductsGrid.jsx";
 import HeritageGallery from "../components/HeritageGallery.jsx";
 import Divisions from "../components/Divisions.jsx";
+import Clients from "../components/Clients.jsx";
 import Strip from "../components/Strip.jsx";
 import Footer from "../components/Footer.jsx";
 import ERPLoginModal from "../components/ERPLoginModal.jsx";
@@ -36,6 +37,7 @@ function LandingContent() {
         <ProductsGrid />
         <HeritageGallery />
         <Divisions />
+        <Clients />
         <Strip />
       </main>
       <Footer />

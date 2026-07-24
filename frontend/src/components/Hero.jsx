@@ -42,7 +42,7 @@ export default function Hero() {
         <div className="hero-vis reveal-right" aria-label="Composite of featured fruits">
           {["a", "b", "c"].map(k => (
             <div className={`hero-tile ${k}`} key={k}>
-              <ImagePlaceholder id={`hero-${k}`} alt={t(`hero.vis.${k}.label`)} />
+              <ImagePlaceholder id={`hero-${k}`} alt={t(`hero.vis.${k}.label`)} eager />
               <div className="id mono">{t(`hero.vis.${k}.id`)}</div>
               {k === "a" && (
                 <div className="coord-strip">

@@ -621,6 +621,31 @@ section.band {
 }
 .div-card:hover .corner { opacity: 1; transform: translate(0, 0); }
 
+/* ====== Clientes reales (prueba social) ====== */
+.clients-grid {
+  list-style: none; margin: 0; padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+}
+.client-card {
+  background: var(--bg);
+  padding: 22px 22px 20px;
+  display: flex; flex-direction: column; gap: 6px;
+  transition: background 200ms ease;
+}
+.client-card:hover { background: var(--bg-2); }
+.client-name {
+  font-family: var(--sans); font-size: 15px; font-weight: 500;
+  color: var(--ink); letter-spacing: -0.005em;
+}
+.client-country {
+  font-size: 10.5px; color: var(--ink-3);
+  text-transform: uppercase; letter-spacing: 0.08em;
+}
+
 /* ====== Heritage / Tierra section ====== */
 .heritage {
   background: var(--bg-2);
@@ -1039,6 +1064,8 @@ footer { border-top: 1px solid var(--line); background: var(--bg); }
   .nav { padding: 14px 20px; }
   .strip-inner { padding: 60px 24px; }
   .foot { padding: 56px 24px 24px; }
+  /* Objetivo táctil mínimo recomendado (44×44px) en móvil */
+  .person-btn { width: 44px; height: 44px; }
 }
 
 /* ==========================================================================
