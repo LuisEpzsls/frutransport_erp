@@ -3,11 +3,10 @@ import { STRINGS } from "../i18n/strings.js";
 import ImagePlaceholder from "./ImagePlaceholder.jsx";
 
 // Mismo orden que products.list en strings.js (idéntico en los 4 idiomas):
-// Mandarina, Palta — los 2 productos reales de exportación verificados
-// (Veritrade, RUC 20609731045). El slug (no el índice numérico) selecciona
-// la foto, para que reordenar products.list no desalinee las fotos
+// Mandarina, Palta, Arándano, Uva, Mango, Espárrago. Se usa el slug, no el
+// índice numérico, para que reordenar products.list no desalinee las fotos
 // (images.js expone "product-<slug>").
-const PRODUCT_SLUGS = ["mandarina", "palta"];
+const PRODUCT_SLUGS = ["mandarina", "palta", "arandano", "uva", "mango", "esparrago"];
 
 function SeasonCalendar({ months, monthLabels, peakLabel, activeLabel }) {
   return (

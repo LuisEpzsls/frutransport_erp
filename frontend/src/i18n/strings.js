@@ -27,18 +27,22 @@ export const STRINGS = {
       vis: {
         a: { id: "FRUTA 01 · MANDARINA", label: "Mandarina W. Murcott" },
         b: { id: "FRUTA 02 · PALTA",     label: "Palta Hass" },
-        c: { id: "EMBARQUE · EXPORTACIÓN", label: "Puerto de contenedores" },
+        c: { id: "FRUTA 03 · ARÁNDANO",  label: "Arándano Biloxi" },
       },
     },
     products: {
       eyebrow: "Productos",
       title_a: "Lo que sale de los ", title_em: "valles peruanos", title_b: ".",
-      lede: "Nuestro catálogo real de exportación se concentra en palta y mandarina de la costa peruana, con trazabilidad de origen y cadena de frío en cada embarque.",
+      lede: "Nuestro catálogo se construye con productores asociados en costa, sierra y selva. Cada fruta se calibra, empaca y embarca bajo protocolos GlobalG.A.P. y cadena de frío continua.",
       seasonLabel: "Temporada", peakLegend: "Pico de cosecha", activeLegend: "Disponible",
       months: ["E", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D"],
       list: [
-        { name: "Mandarina", variety: "Malvacea",   region: "Costa norte del Perú", note: "Producto principal de exportación, con ventas complementarias al mercado nacional.", months: [0,0,0,2,2,2,1,1,1,0,0,0] },
-        { name: "Palta",     variety: "Hass · Fuerte", region: "Costa peruana",      note: "Embarques verificados a Países Bajos, España y Estados Unidos (fuente: Veritrade, RUC 20609731045).", months: [0,0,1,2,2,2,2,1,1,0,0,0] },
+        { name: "Mandarina", variety: "Malvacea",                     region: "Ica · Lima",                  note: "Sin semilla, calibre 1XX–3XX. Calibrada para retail europeo y asiático.", months: [0,0,0,2,2,2,1,1,1,0,0,0] },
+        { name: "Palta",     variety: "Hass · Fuerte",                region: "La Libertad · Áncash",        note: "Materia seca 23–28%. Embarques verificados a Países Bajos, España y Estados Unidos.", months: [0,0,1,2,2,2,2,1,1,0,0,0] },
+        { name: "Arándano",  variety: "Biloxi · Ventura · Rocío",     region: "La Libertad · Lambayeque",    note: "Calibre 12–18 mm. Calibrado y empacado en planta con atmósfera modificada para tránsito largo.", months: [0,0,0,0,0,1,2,2,2,2,1,0] },
+        { name: "Uva de mesa", variety: "Red Globe · Sweet Globe · Allison", region: "Piura · Ica",         note: "Racimo seleccionado, sin semilla y con semilla. Pre-cooling y embarque en contenedor reefer.", months: [2,1,0,0,0,0,0,0,0,1,2,2] },
+        { name: "Mango",     variety: "Kent · Edward",                region: "Piura",                       note: "Tratamiento hidrotérmico para EE.UU. y Japón. Brix 15°+ al embarque.", months: [2,2,1,1,0,0,0,0,0,0,0,1] },
+        { name: "Espárrago", variety: "UC-157 verde",                 region: "Ica · La Libertad",           note: "Cortado y empacado mismo día. Vida útil 21 días en cadena de frío continua.", months: [1,1,1,1,1,1,2,2,1,1,1,1] },
       ],
     },
     heritage: {
@@ -59,7 +63,7 @@ export const STRINGS = {
       title_a: "Más allá del campo: ", title_em: "seis especialidades", title_b: " que sostienen cada embarque.",
       lede: "La agroexportación es nuestra raíz, y con los años construimos capacidades complementarias. Cada división está disponible como servicio para clientes externos.",
       list: [
-        { name: "Agroexportación",     desc: "Acopio, packing y embarque internacional de productos premium. Cumplimiento fitosanitario gestionado de punta a punta.", tags: ["Palta", "Mandarina", "Cadena de frío"] },
+        { name: "Agroexportación",     desc: "Acopio, packing y embarque internacional de productos premium. Cumplimiento fitosanitario gestionado de punta a punta.", tags: ["Uva", "Arándano", "Cadena de frío"] },
         { name: "Importaciones",       desc: "Comercio entrante con agencia aduanera, almacén bonded y distribución de última milla en la red regional.", tags: ["Aduana", "Bonded", "Distribución"] },
         { name: "Servicios Automotrices", desc: "Lubricentro, carwash integral y playa de estacionamiento administrada. Un solo estándar de ticketing tipo flota.", tags: ["Lubricentro", "Carwash", "Estacionamiento"] },
         { name: "Logística y Mudanzas", desc: "Delivery urbano del mismo día y mudanzas residenciales. Asegurado, con rastreo GPS y enrutado desde la torre central.", tags: ["Delivery", "Mudanzas", "Rastreado"] },
@@ -173,18 +177,22 @@ export const STRINGS = {
       vis: {
         a: { id: "FRUIT 01 · MANDARIN",   label: "W. Murcott Mandarin" },
         b: { id: "FRUIT 02 · AVOCADO",    label: "Hass Avocado" },
-        c: { id: "SHIPMENT · EXPORT",     label: "Container port" },
+        c: { id: "FRUIT 03 · BLUEBERRY",  label: "Biloxi Blueberry" },
       },
     },
     products: {
       eyebrow: "Products",
       title_a: "What comes out of the ", title_em: "Peruvian valleys", title_b: ".",
-      lede: "Our real export catalogue is concentrated in avocado and mandarin from the Peruvian coast, with origin traceability and cold chain on every shipment.",
+      lede: "Our catalogue is built with grower partners on the coast, the highlands, and the jungle. Every fruit is sized, packed, and shipped under GlobalG.A.P. protocols and an unbroken cold chain.",
       seasonLabel: "Season", peakLegend: "Peak harvest", activeLegend: "Available",
       months: ["J", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D"],
       list: [
-        { name: "Mandarin", variety: "Malvacea",       region: "Northern Peruvian coast", note: "Main export product, with complementary sales to the domestic market.", months: [0,0,0,2,2,2,1,1,1,0,0,0] },
-        { name: "Avocado",   variety: "Hass · Fuerte", region: "Peruvian coast",          note: "Verified shipments to the Netherlands, Spain, and the United States (source: Veritrade, RUC 20609731045).", months: [0,0,1,2,2,2,2,1,1,0,0,0] },
+        { name: "Mandarin",    variety: "Malvacea",                        region: "Ica · Lima",               note: "Seedless, sizes 1XX–3XX. Calibrated for European and Asian retail.", months: [0,0,0,2,2,2,1,1,1,0,0,0] },
+        { name: "Avocado",     variety: "Hass · Fuerte",                   region: "La Libertad · Áncash",     note: "Dry matter 23–28%. Verified shipments to the Netherlands, Spain, and the United States.", months: [0,0,1,2,2,2,2,1,1,0,0,0] },
+        { name: "Blueberry",   variety: "Biloxi · Ventura · Rocío",        region: "La Libertad · Lambayeque", note: "Sizes 12–18 mm. Sorted and packed in MAP for long-haul transit.", months: [0,0,0,0,0,1,2,2,2,2,1,0] },
+        { name: "Table grape", variety: "Red Globe · Sweet Globe · Allison", region: "Piura · Ica",             note: "Hand-selected clusters, seeded and seedless. Pre-cooled and shipped in reefer.", months: [2,1,0,0,0,0,0,0,0,1,2,2] },
+        { name: "Mango",       variety: "Kent · Edward",                    region: "Piura",                    note: "Hydrothermal treatment for the US and Japan. 15°+ brix at loading.", months: [2,2,1,1,0,0,0,0,0,0,0,1] },
+        { name: "Asparagus",   variety: "UC-157 green",                     region: "Ica · La Libertad",        note: "Cut and packed same day. 21-day shelf life on continuous cold chain.", months: [1,1,1,1,1,1,2,2,1,1,1,1] },
       ],
     },
     heritage: {
@@ -205,7 +213,7 @@ export const STRINGS = {
       title_a: "Beyond the field: ", title_em: "six specialties", title_b: " that hold every shipment up.",
       lede: "Agro-export is our root, and over the years we built complementary capabilities. Each division is also available as a service to external clients.",
       list: [
-        { name: "Agro-Exports",         desc: "Sourcing, packing, and outbound shipment of premium produce. Phyto-sanitary compliance handled end to end.", tags: ["Avocado", "Mandarin", "Cold-chain"] },
+        { name: "Agro-Exports",         desc: "Sourcing, packing, and outbound shipment of premium produce. Phyto-sanitary compliance handled end to end.", tags: ["Grape", "Blueberry", "Cold-chain"] },
         { name: "Imports",              desc: "Inbound commercial trade with customs brokerage, bonded warehousing, and last-mile distribution.", tags: ["Customs", "Bonded", "Distribution"] },
         { name: "Automotive Services",  desc: "Lubricentro, full-service carwash, and managed long-stay parking. One fleet-grade ticketing standard.", tags: ["Lubricentro", "Carwash", "Parking"] },
         { name: "Logistics & Moving",   desc: "Same-day urban delivery and residential mudanzas. Insured, GPS-tracked, and routed through the central dispatch tower.", tags: ["Delivery", "Mudanzas", "Tracked"] },
@@ -319,18 +327,22 @@ export const STRINGS = {
       vis: {
         a: { id: "FRUTA 01 · TANGERINA", label: "Tangerina W. Murcott" },
         b: { id: "FRUTA 02 · ABACATE",   label: "Abacate Hass" },
-        c: { id: "EMBARQUE · EXPORTAÇÃO", label: "Porto de contêineres" },
+        c: { id: "FRUTA 03 · MIRTILO",   label: "Mirtilo Biloxi" },
       },
     },
     products: {
       eyebrow: "Produtos",
       title_a: "O que sai dos ", title_em: "vales peruanos", title_b: ".",
-      lede: "Nosso catálogo real de exportação se concentra em abacate e tangerina da costa peruana, com rastreabilidade de origem e cadeia fria em cada embarque.",
+      lede: "Nosso catálogo é construído com produtores parceiros na costa, na serra e na selva. Cada fruta é calibrada, embalada e embarcada sob protocolos GlobalG.A.P. e cadeia fria contínua.",
       seasonLabel: "Temporada", peakLegend: "Pico de colheita", activeLegend: "Disponível",
       months: ["J", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D"],
       list: [
-        { name: "Tangerina", variety: "Malvacea",       region: "Costa norte do Peru", note: "Principal produto de exportação, com vendas complementares ao mercado nacional.", months: [0,0,0,2,2,2,1,1,1,0,0,0] },
-        { name: "Abacate",   variety: "Hass · Fuerte",  region: "Costa peruana",       note: "Embarques verificados para os Países Baixos, Espanha e Estados Unidos (fonte: Veritrade, RUC 20609731045).", months: [0,0,1,2,2,2,2,1,1,0,0,0] },
+        { name: "Tangerina",   variety: "Malvacea",                         region: "Ica · Lima",               note: "Sem sementes, calibres 1XX–3XX.", months: [0,0,0,2,2,2,1,1,1,0,0,0] },
+        { name: "Abacate",     variety: "Hass · Fuerte",                    region: "La Libertad · Áncash",     note: "Matéria seca 23–28%. Embarques verificados para os Países Baixos, Espanha e Estados Unidos.", months: [0,0,1,2,2,2,2,1,1,0,0,0] },
+        { name: "Mirtilo",     variety: "Biloxi · Ventura · Rocío",         region: "La Libertad · Lambayeque", note: "Calibre 12–18 mm. MAP para trânsito longo.", months: [0,0,0,0,0,1,2,2,2,2,1,0] },
+        { name: "Uva de mesa", variety: "Red Globe · Sweet Globe · Allison", region: "Piura · Ica",             note: "Cacho selecionado, com e sem sementes.", months: [2,1,0,0,0,0,0,0,0,1,2,2] },
+        { name: "Manga",       variety: "Kent · Edward",                    region: "Piura",                    note: "Tratamento hidrotérmico para EUA e Japão.", months: [2,2,1,1,0,0,0,0,0,0,0,1] },
+        { name: "Aspargo",     variety: "UC-157 verde",                     region: "Ica · La Libertad",        note: "Cortado e embalado no mesmo dia. Vida útil 21 dias.", months: [1,1,1,1,1,1,2,2,1,1,1,1] },
       ],
     },
     heritage: {
@@ -351,7 +363,7 @@ export const STRINGS = {
       title_a: "Além do campo: ", title_em: "seis especialidades", title_b: " que sustentam cada embarque.",
       lede: "A agroexportação é nossa raiz, e com os anos construímos capacidades complementares.",
       list: [
-        { name: "Agroexportação",    desc: "Sourcing, embalagem e embarque internacional de produtos premium.", tags: ["Abacate", "Tangerina", "Cadeia fria"] },
+        { name: "Agroexportação",    desc: "Sourcing, embalagem e embarque internacional de produtos premium.", tags: ["Uva", "Mirtilo", "Cadeia fria"] },
         { name: "Importações",       desc: "Comércio inbound com despacho aduaneiro e armazém bonded.", tags: ["Aduana", "Bonded", "Distribuição"] },
         { name: "Serviços Automotivos", desc: "Lubrificação, lava-jato integral e estacionamento gerenciado.", tags: ["Lubrificação", "Lava-jato", "Estacionamento"] },
         { name: "Logística e Mudanças", desc: "Delivery urbano same-day e mudanças residenciais.", tags: ["Delivery", "Mudanças", "Rastreado"] },
@@ -465,18 +477,22 @@ export const STRINGS = {
       vis: {
         a: { id: "水果 01 · 蜜橘", label: "W. Murcott 蜜橘" },
         b: { id: "水果 02 · 鳄梨", label: "哈斯鳄梨" },
-        c: { id: "货运 · 出口", label: "集装箱港口" },
+        c: { id: "水果 03 · 蓝莓", label: "比洛克西蓝莓" },
       },
     },
     products: {
       eyebrow: "产品",
       title_a: "源自", title_em: "秘鲁山谷", title_b: "的好物。",
-      lede: "我们真实的出口目录集中在秘鲁沿海产的鳄梨和蜜橘,每批货物都有原产地溯源和冷链保障。",
+      lede: "我们的产品目录由海岸、山区与雨林的合作种植者共同构建。每种水果都按 GlobalG.A.P. 标准分级、包装并在持续冷链下发运。",
       seasonLabel: "产季", peakLegend: "采收高峰", activeLegend: "可供",
       months: ["1","2","3","4","5","6","7","8","9","10","11","12"],
       list: [
-        { name: "蜜橘", variety: "Malvacea",    region: "秘鲁北部沿海", note: "主要出口产品,并有部分销往国内市场。", months: [0,0,0,2,2,2,1,1,1,0,0,0] },
-        { name: "鳄梨", variety: "哈斯 · Fuerte", region: "秘鲁沿海",   note: "已核实发往荷兰、西班牙和美国的货运(来源:Veritrade,RUC 20609731045)。", months: [0,0,1,2,2,2,2,1,1,0,0,0] },
+        { name: "蜜橘",     variety: "Malvacea",                 region: "伊卡 · 利马",             note: "无籽,规格 1XX–3XX。", months: [0,0,0,2,2,2,1,1,1,0,0,0] },
+        { name: "鳄梨",     variety: "哈斯 · Fuerte",             region: "拉利伯塔德 · 安卡什",     note: "干物质 23–28%。已核实发往荷兰、西班牙和美国的货运。", months: [0,0,1,2,2,2,2,1,1,0,0,0] },
+        { name: "蓝莓",     variety: "Biloxi · Ventura · Rocío", region: "拉利伯塔德 · 兰巴耶克",   note: "规格 12–18 毫米。", months: [0,0,0,0,0,1,2,2,2,2,1,0] },
+        { name: "鲜食葡萄", variety: "红地球 · Sweet Globe · Allison", region: "皮乌拉 · 伊卡",       note: "手工挑选果串。", months: [2,1,0,0,0,0,0,0,0,1,2,2] },
+        { name: "芒果",     variety: "Kent · Edward",            region: "皮乌拉",                 note: "为美国与日本市场提供热水处理。", months: [2,2,1,1,0,0,0,0,0,0,0,1] },
+        { name: "芦笋",     variety: "UC-157 绿芦笋",             region: "伊卡 · 拉利伯塔德",       note: "当日切割并打包。", months: [1,1,1,1,1,1,2,2,1,1,1,1] },
       ],
     },
     heritage: {
@@ -497,7 +513,7 @@ export const STRINGS = {
       title_a: "超越田间:", title_em: "六大专长", title_b: ",支撑每一次发运。",
       lede: "农产品出口是我们的根,多年来我们建立了互补的能力。",
       list: [
-        { name: "农产品出口", desc: "优质农产品的采购、包装与国际运输。", tags: ["鳄梨", "蜜橘", "冷链"] },
+        { name: "农产品出口", desc: "优质农产品的采购、包装与国际运输。", tags: ["葡萄", "蓝莓", "冷链"] },
         { name: "进口业务",   desc: "进口贸易,含报关代理、保税仓储以及最后一公里配送。", tags: ["报关", "保税", "配送"] },
         { name: "汽车服务",   desc: "润滑中心、全套洗车服务与长期托管停车。", tags: ["润滑", "洗车", "停车"] },
         { name: "物流与搬迁", desc: "城市当日达配送与住宅搬迁。", tags: ["配送", "搬迁", "追踪"] },

@@ -76,7 +76,7 @@
   --warn: oklch(70% 0.18 50);
 }
 * { box-sizing: border-box; }
-html, body { margin: 0; padding: 0; }
+html, body { margin: 0; padding: 0; overflow-x: hidden; }
 body {
   font-family: var(--sans);
   background: var(--bg);
@@ -107,7 +107,7 @@ button { font-family: inherit; cursor: pointer; }
   padding: 18px 32px;
   gap: 24px;
 }
-.brand { display: flex; align-items: center; gap: 12px; }
+.brand { display: flex; align-items: center; gap: 12px; min-width: 0; }
 .brand-mark {
   width: 34px; height: 34px; display: grid; place-items: center;
   border-radius: 9px;
@@ -115,15 +115,17 @@ button { font-family: inherit; cursor: pointer; }
   color: var(--bg);
 }
 .brand-mark svg { display: block; }
-.brand-text { display: flex; flex-direction: column; line-height: 1; }
+.brand-text { display: flex; flex-direction: column; line-height: 1; min-width: 0; }
 .brand-name {
   font-family: var(--sans); font-weight: 600;
   font-size: 17px; letter-spacing: -0.015em;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
 .brand-tag {
   font-family: var(--mono); font-size: 10px;
   color: var(--ink-3); margin-top: 4px;
   text-transform: uppercase; letter-spacing: 0.08em;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
 .nav-links {
   display: flex; gap: 4px; align-items: center;
@@ -398,7 +400,7 @@ button { font-family: inherit; cursor: pointer; }
 }
 .hero-grid {
   display: grid; grid-template-columns: 1.15fr 1fr;
-  gap: 48px; align-items: end;
+  gap: 48px; align-items: center;
 }
 .hero h1 {
   font-family: var(--serif);
@@ -453,7 +455,7 @@ button { font-family: inherit; cursor: pointer; }
   margin-top: 56px;
   border-top: 1px solid var(--line);
 }
-.stat { padding: 22px 18px 6px 0; border-right: 1px solid var(--line); }
+.stat { padding: 22px 18px 22px 0; border-right: 1px solid var(--line); }
 .stat:last-child { border-right: 0; }
 .stat-n { font-family: var(--serif); font-size: 44px; line-height: 1; letter-spacing: -0.02em; }
 .stat-n .unit {
@@ -1061,7 +1063,13 @@ footer { border-top: 1px solid var(--line); background: var(--bg); }
   .foot-base { flex-direction: column; gap: 12px; align-items: flex-start; }
   .hero { padding-top: 36px; }
   section.band { padding: 72px 24px; }
-  .nav { padding: 14px 20px; }
+  /* nav: gap más chico + marca truncable, para que theme/idioma/cuenta
+     nunca se salgan de pantalla (antes forzaban scroll horizontal en
+     celulares angostos y el botón de cuenta quedaba fuera de vista) */
+  .nav { padding: 14px 16px; gap: 10px; }
+  .brand-text { max-width: 96px; }
+  .nav-right { gap: 6px; }
+  .lang-btn { padding: 8px 9px 8px 10px; }
   .strip-inner { padding: 60px 24px; }
   .foot { padding: 56px 24px 24px; }
   /* Objetivo táctil mínimo recomendado (44×44px) en móvil */

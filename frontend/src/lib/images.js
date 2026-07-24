@@ -14,28 +14,23 @@
 const img = (name) => `/images/${name}`;
 
 export const IMAGES = {
-  // ── Hero tiles — deben coincidir con hero.vis (a=Mandarina, b=Palta,
-  // c=puerto/contenedores — antes era un 3er fruto ficticio no exportado
-  // realmente; ahora representa el embarque, coherente con los 2 productos
-  // reales del catálogo) ──
-  "hero-a": img("mandarina.jpg"),    // mandarina con hojas ✓
-  "hero-b": img("palta.jpg"),        // palta hass partida ✓
-  "hero-c": img("heritage-port.jpg"), // puerto de contenedores aéreo ✓
+  // ── Hero tiles — deben coincidir con hero.vis (a=Mandarina, b=Palta, c=Arándano) ──
+  "hero-a": img("mandarina.jpg"), // mandarina con hojas ✓
+  "hero-b": img("palta.jpg"),     // palta hass partida ✓
+  "hero-c": img("arandano.jpg"),  // arándanos en bowl ✓
 
   // ── Productos agroexportación — clave = slug estable, NO índice numérico.
-  // products.list en strings.js tiene solo 2 productos reales verificados
-  // (Mandarina, Palta — Veritrade, RUC 20609731045), mismo orden en los 4
-  // idiomas; ProductsGrid arma la clave `product-<slug>` desde ese mismo
-  // array de slugs, así que un futuro reordenamiento de products.list no
-  // puede volver a desalinear las fotos (la causa exacta del bug anterior,
-  // que usaba `product-${i}`). Las demás quedan sin usar por ahora (no se
-  // eliminan por si se recupera evidencia real de esos productos).
+  // El orden de products.list en strings.js (Mandarina, Palta, Arándano, Uva,
+  // Mango, Espárrago) es el mismo en los 4 idiomas; ProductsGrid arma la
+  // clave `product-<slug>` desde el mismo array de slugs, así que un futuro
+  // reordenamiento de products.list no puede volver a desalinear las fotos
+  // (la causa exacta del bug anterior, que usaba `product-${i}`).
   "product-mandarina": img("mandarina.jpg"),      // mandarina con hojas ✓
   "product-palta":     img("palta.jpg"),          // palta hass partida ✓
-  "product-arandano":  img("arandano.jpg"),       // sin usar — sin producto real verificado
-  "product-uva":       img("uva.jpg"),            // sin usar — sin producto real verificado
-  "product-mango":     img("mango.jpg"),          // sin usar — sin producto real verificado
-  "product-esparrago": img("esparrago-crudo.jpg"),// sin usar — sin producto real verificado
+  "product-arandano":  img("arandano.jpg"),       // arándanos en bowl ✓
+  "product-uva":       img("uva.jpg"),            // racimo de uva ✓
+  "product-mango":     img("mango.jpg"),          // mango entero ✓
+  "product-esparrago": img("esparrago-crudo.jpg"),// espárragos crudos, primer plano ✓
 
   // ── Heritage gallery — verificadas contra heritage.slots.*.caption ──
   "heritage-field":  img("heritage-field.jpg"),  // almácigo / campo de cultivo ✓
