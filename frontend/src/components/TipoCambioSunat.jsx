@@ -41,6 +41,7 @@ export default function TipoCambioSunat() {
         className="tc-row"
         onClick={() => setAbierto((a) => !a)}
         aria-expanded={abierto}
+        aria-label="Tipo de cambio SUNAT, expandir para consultar otra fecha"
       >
         <img src="/sunat-logo.png" alt="" width={16} height={16} className="tc-logo" />
         <span className="tc-label">Tipo de cambio</span>

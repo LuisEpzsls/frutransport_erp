@@ -26,6 +26,7 @@ export default function UserMenu() {
         onClick={() => setAbierto((a) => !a)}
         aria-haspopup="menu"
         aria-expanded={abierto}
+        aria-label={user?.email ? `Cuenta: ${user.email}` : 'Menú de usuario'}
       >
         <span className="user-avatar">{inicial}</span>
         <span className="user-menu-text">

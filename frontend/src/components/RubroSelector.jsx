@@ -35,6 +35,7 @@ export default function RubroSelector() {
         onClick={() => setAbierto((a) => !a)}
         aria-haspopup="listbox"
         aria-expanded={abierto}
+        aria-label={`Rubro activo: ${rubroActivo.nombre}${rubros.length > 1 ? '. Cambiar rubro' : ''}`}
         disabled={rubros.length <= 1}
       >
         <span className="rubro-ico">{IconoActivo && <IconoActivo />}</span>

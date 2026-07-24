@@ -1360,3 +1360,27 @@ footer { border-top: 1px solid var(--line); background: var(--bg); }
   margin-top: 10px; padding-top: 10px;
   border-top: 1px solid var(--line);
 }
+
+/* ── ERP responsive (tablet/móvil angosto): sidebar pasa de columna
+   fija a barra horizontal con scroll, sin ocultar ninguna pantalla ── */
+@media (max-width: 880px) {
+  .erp-shell { flex-direction: column; }
+  .erp-side {
+    width: 100%; height: auto; position: static;
+    flex-direction: row; align-items: center;
+    padding: 12px 14px; gap: 10px;
+  }
+  .erp-side .brand { margin-bottom: 0; padding: 0; flex-shrink: 0; }
+  .erp-nav {
+    flex: 1; flex-direction: row; gap: 4px;
+    overflow-x: auto; white-space: nowrap;
+  }
+  .erp-nav-item { flex-shrink: 0; }
+  .erp-nav-sep { width: 1px; height: 20px; margin: 0 4px; flex-shrink: 0; }
+  .erp-side-foot, .tc-widget { display: none; }
+  .erp-page { padding: 20px 16px 32px; }
+}
+@media (max-width: 520px) {
+  .erp-title { font-size: 24px; }
+  .erp-card-pad { padding: 16px; }
+}

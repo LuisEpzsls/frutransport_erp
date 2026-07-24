@@ -217,7 +217,7 @@ docker compose down        # apagar (el volumen pgdata persiste)
 ```
 
 - El backend aplica `prisma migrate deploy` siempre; `prisma db seed` solo si `RUN_SEED=true` (default de esta demo — ver `.env.example`). En producción se deja sin definir para no crear usuarios con contraseñas conocidas en cada arranque.
-- El contenedor `ml_engine` incluye `modelo_rf.pkl` del build context. Reentrenar dentro: `docker compose exec ml_engine python model/train.py` (luego `docker compose restart ml_engine` por el caché).
+- `modelo_rf.pkl` está gitignorado (es un binario, no vive en git) — un `git clone` fresco **no lo trae**, así que el primer arranque en una máquina/VPS nueva **requiere entrenar antes de cotizar**: `docker compose exec ml_engine python model/train.py` (lee las cotizaciones `LIQUIDADA` ya sembradas en PostgreSQL) y luego `docker compose restart ml_engine` (el modelo se cachea en memoria al primer uso). Sin este paso, `/api/ml/predict` devuelve 503/500 en todo intento de cotizar.
 - Secretos por defecto de demo; sobrescribir con un `.env` en la raíz (`DB_PASSWORD`, `JWT_SECRET`, `ML_INTERNAL_SECRET`).
 - El backend **no** expone su puerto al host — todo el tráfico entra por nginx (`:8080`) y se proxea internamente; no hay `localhost:5000` accesible desde fuera de Docker.
 
