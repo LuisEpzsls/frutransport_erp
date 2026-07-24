@@ -11,7 +11,7 @@ from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 import joblib
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-MODEL_PATH = os.path.join(BASE_DIR, 'modelo_rf.pkl')
+MODEL_PATH = os.environ.get('MODEL_PATH', os.path.join(BASE_DIR, 'modelo_rf.pkl'))
 
 # 2. NUEVA VARIABLE OBJETIVO (Verdad Empírica)
 TARGET = 'porcentaje_descarte_real'

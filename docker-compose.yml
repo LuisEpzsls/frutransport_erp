@@ -38,6 +38,12 @@ services:
       ML_INTERNAL_SECRET: ${ML_INTERNAL_SECRET:-secreto-interno-demo}
       # Para reentrenar dentro del contenedor: docker compose exec ml_engine python model/train.py
       DATABASE_URL: postgresql://postgres:${DB_PASSWORD:-frutransport_demo}@postgres:5432/frutransport_db
+      # modelo_rf.pkl es gitignorado (binario) y NUNCA viaja en la imagen — se
+      # guarda en este volumen aparte para sobrevivir a un rebuild/recreate
+      # del contenedor (antes se perdía y había que reentrenar cada vez).
+      MODEL_PATH: /model_store/modelo_rf.pkl
+    volumes:
+      - ml_model_store:/model_store
     depends_on:
       postgres:
         condition: service_healthy
@@ -92,3 +98,4 @@ services:
 
 volumes:
   pgdata:
+  ml_model_store:

@@ -2,7 +2,7 @@ import os
 import joblib
 import pandas as pd
 
-MODEL_PATH = os.path.join(os.path.dirname(__file__), 'modelo_rf.pkl')
+MODEL_PATH = os.environ.get('MODEL_PATH', os.path.join(os.path.dirname(__file__), 'modelo_rf.pkl'))
 
 _cache = {}
 
